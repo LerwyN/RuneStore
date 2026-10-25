@@ -2,106 +2,116 @@
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     ViewData["Title"] = "Rune'ye Hoş Geldiniz";
+    var featuredGames = Model.Take(5).ToList();
+    var catalogGames = Model.Where(game => game.Slug == "grand-theft-auto-v").ToList();
 }
 
 
-@* arama ve filter bölümü *@
+@* mağaza araması ve alt menü *@
 <div class="search-filter-row">
     <div class="search-container">
         <div class="search">
             <button>
                 <img src="https://img.icons8.com/?size=100&id=TQPOC8XaUqZ0&format=png&color=ffffff" alt="">
             </button>
-            <input type="text" placeholder="Oyun, DLC, kategori ara...">
+            <input type="text" placeholder="Mağazada ara">
+            <span class="search-new-badge" aria-label="Yeni">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 3.5 13.8 9l5.7 1.8-5.7 1.8-1.8 5.7-1.8-5.7-5.7-1.8L10.2 9 12 3.5Z" />
+                    <path d="m19 15.5.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z" />
+                </svg>
+                <span>Yeni</span>
+            </span>
         </div>
     </div>
-    <div class="filter-wrapper">
-        <button class="filter-button" title="Filtreler">
-            <img src="https://img.icons8.com/?size=100&id=69913&format=png&color=ffffff" alt="">
-        </button>
-        <div class="filter-panel">
-            <h3>Fiyata göre daralt</h3>
-            <div class="price-filter">
-                <span>0 TL</span>
-                <span>5000 TL</span>
-                <input type="range" min="0" max="5000" value="5000">
-            </div>
-            <label>
-                <input type="checkbox">
-                İndirimler ve etkinlikler
-            </label>
-            <label>
-                <input type="checkbox">
-                Ücretsiz oyunlar
-            </label>
-            <hr>
-            <h3>Oyun türü</h3>
-            <label>
-                <input type="checkbox" value="aksiyon">
-                Aksiyon
-            </label>
-            <label>
-                <input type="checkbox" value="macera">
-                Macera
-            </label>
-            <label>
-                <input type="checkbox" value="rpg">
-                RPG
-            </label>
-            <label>
-                <input type="checkbox" value="strateji">
-                Strateji
-            </label>
-            <div class="filter-actions">
-                <button type="button" class="clear-filters">Temizle</button>
-                <button type="button" class="apply-filters">Uygula</button>
-            </div>
-        </div>
-    </div>
+    <nav class="store-subnav" aria-label="Mağaza menüsü">
+        <a href="#featuredBanner" class="active">Keşfet</a>
+        <a href="#all-games-heading">Göz At</a>
+    </nav>
 </div>
 
 
 @* oyun banner yer aldı alan ve sağ taraf *@
 <div class="store-layout">
     <main class="store-main">
-        <div class="featured-game">
-            <div class="banner" id="featuredBanner">
-                <div class="banner-content">
-                    <h1 id="bannerTitle">Grand Theft Auto VI</h1>
-                    <p id="bannerDescription">
-                        Vice City'de suç ve özgürlüğün sınırlarını keşfet.
-                    </p>
-                    <div class="banner-buttons">
-                        <button type="button" id="detailsButton">
-                            İncele
-                        </button>
-                        <button type="button" id="wishlistButton" class="banner-wishlist-button" aria-label="İstek listesine ekle">
-                            <img src="https://img.icons8.com/?size=100&amp;id=qePzjQLJYgjF&amp;format=png&amp;color=ffffff" alt="" aria-hidden="true" />
-                        </button>
-                    </div>
-                    <div class="banner-progress">
-                        <div class="banner-progress-fill">
-                
+        <div class="featured-showcase">
+            <div class="featured-game">
+                <div class="banner banner-special-active" id="featuredBanner"
+                     style="--banner-image: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0) 100%), url('/images/Specials/holloween-sale.png');">
+                    <div class="banner-content">
+                        <h1 id="bannerTitle">Cadılar Bayramı İndirimi</h1>
+                        <p id="bannerDescription">Cadılar Bayramı'na özel seçili oyunlarda indirimleri keşfet.</p>
+                        <div class="banner-buttons">
+                            <button type="button" id="detailsButton">
+                                İncele
+                            </button>
+                            <button type="button" id="wishlistButton" class="banner-wishlist-button" aria-label="İstek listesine ekle">
+                                <img src="https://img.icons8.com/?size=100&amp;id=qePzjQLJYgjF&amp;format=png&amp;color=ffffff" alt="" aria-hidden="true" />
+                            </button>
+                        </div>
+                        <div class="banner-progress">
+                            <div class="banner-progress-fill"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            @if (featuredGames.Any())
+            {
+                <aside class="featured-game-list" aria-label="Öne çıkan oyunlar">
+                    <button type="button"
+                            class="featured-game-option featured-promo-option active"
+                            data-featured-title="Cadılar Bayramı İndirimi"
+                            data-featured-description="Cadılar Bayramı'na özel seçili oyunlarda indirimleri keşfet."
+                            data-featured-image="/images/Specials/holloween-sale.png"
+                            data-featured-kind="special"
+                            aria-pressed="true">
+                        <img src="/images/Specials/holloween-profile.png" alt="" loading="lazy" />
+                        <span class="featured-game-option-title">Cadılar Bayramı İndirimi</span>
+                    </button>
+                    @foreach (var game in featuredGames)
+                    {
+                        var thumbnailPath = string.IsNullOrWhiteSpace(game.CoverImagePath)
+                            ? game.BannerImagePath
+                            : game.CoverImagePath;
+
+                        <button type="button"
+                                class="featured-game-option"
+                                data-featured-title="@game.Title"
+                                data-featured-description="@game.Description"
+                                data-featured-image="@(string.IsNullOrWhiteSpace(game.BannerImagePath) ? thumbnailPath : game.BannerImagePath)"
+                                aria-pressed="false">
+                            <img src="@thumbnailPath" alt="" loading="lazy" />
+                            <span class="featured-game-option-title">@game.Title</span>
+                        </button>
+                    }
+                </aside>
+            }
         </div>
         <section class="catalog-section" aria-labelledby="all-games-heading">
             <h2 id="all-games-heading">Popüler Oyunlar</h2>
-            @if (Model.Any())
+            @if (catalogGames.Any())
             {
                 <div class="catalog-games">
-                    @foreach (var game in Model)
+                    @foreach (var game in catalogGames)
                     {
                         <article class="catalog-game-card">
-                            <img class="catalog-game-banner"
-                                 src="@game.BannerImagePath"
-                                 alt="@game.Title oyun görseli"
-                                 loading="lazy" />
+                            <a href="">
+                                <img class="catalog-game-banner"
+                                src="@game.BannerImagePath"
+                                alt="@game.Title oyun görseli"
+                                loading="lazy" />
+                            </a>
                             <div class="catalog-game-info">
                                 <h3>@game.Title</h3>
-                                <span class="catalog-game-price">₺ @game.Price.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                                @if (game.Price > 0)
+                                {
+                                    <span class="catalog-game-price">₺ @game.Price.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                                }
+                                else
+                                {
+                                    <span class="catalog-game-price catalog-game-price-pending">Fiyat yakında</span>
+                                }
                             </div>
                         </article>
                     }
@@ -113,43 +123,4 @@
             }
         </section>
     </main>
-    <aside class="store-sidebar">
-        <section class="sidebar-card notification-card">
-            <div class="notification-heading">
-                <img src="https://img.icons8.com/?size=100&id=115225&format=png&color=ffffff" alt="">
-                <h3>Aktivite Akışı</h3>
-            </div>
-            <div class="wobbo">
-                <h6>Hmm, Şu anlık burası sessiz</h6>
-                <p>Yeni bildirimlerin olduğunda burada olacağız</p>
-            </div>
-        </section>
-        <section class="sidebar-card deal-card">
-            <div class="deal-content">
-                <div class="deal-heading">
-                    <img src="https://img.icons8.com/?size=100&id=3103&format=png&color=ffffff" alt="">
-                    <h3>Özel Fırsat</h3>
-                </div>
-                <div class="deal-timer">
-                    <img src="https://img.icons8.com/?size=100&id=108863&format=png&color=ffffff" alt="">
-                    <p>24:00:00</p>
-                </div>
-            </div>
-            <div class="deal-game">
-                <img class="deal-favorite" src="https://img.icons8.com/?size=100&id=64767&format=png&color=ffffff"
-                    alt="">
-                <span class="deal-discount">-45%</span>
-            </div>
-            <div class="deal-price">
-                <h4>Red Dead Redemption II</h4>
-                <div class="price-details">
-                    <span class="old-price">₺ 2.099,00</span>
-                    <span class="new-price">₺ 1.154,45</span>
-                </div>
-            </div>
-        </section>
-        <section class="sidebar-card">
-            <img src="https://img.icons8.com/?size=100&id=yZX1GOetNQCq&format=png&color=ffffff" alt=""> <h3>Arkadaşlarım</h3>
-        </section>
-    </aside>
 </div>

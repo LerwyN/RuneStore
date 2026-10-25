@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <script type="importmap"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="icon" href="~/images/icons/RuneDarkIcon.png">
@@ -20,33 +21,28 @@
             <div class="navbar-logo">
                 <a class="rune-icon">
                     <img src="~/images/icons/RuneStore.png" alt="RUNE">
-                    <p class="version">Version: BETA</p>
+                    <p class="version">Version: 0.1.0 BETA</p>
                 </a>
             </div>
             <nav class="navbar-middle">
                 <a asp-controller="Home" asp-action="Index" class="@(currentController == "Home" ? "active" : "")"
                    title="Sıradaki Maceranı Keşfet">
-                    <img src="https://img.icons8.com/?size=100&id=489&format=png&color=000000" alt="">
                     Mağaza
                 </a>
                 <a asp-controller="Library" asp-action="Index" class="@(currentController == "Library" ? "active" : "")"
                    title="Oyunların, Senin Dünyan">
-                    <img src="https://img.icons8.com/?size=100&id=NVBQfAAOvi9A&format=png&color=000000" alt="">
                     Kütüphane
                 </a>
                 <a asp-controller="Community" asp-action="Index"
                    class="@(currentController == "Community" ? "active" : "")" title="Oyun Dünyasının Buluşma Noktası">
-                    <img src="https://img.icons8.com/?size=100&id=101316&format=png&color=000000" alt="">
                     Topluluk
                 </a>
                 <a asp-controller="News" asp-action="Index" class="@(currentController == "News" ? "active" : "")"
                    title="Oyun Dünyasından Haberdar Ol">
-                    <img src="https://img.icons8.com/?size=100&id=0XwEi0yisdO8&format=png&color=000000" alt="">
                     Haberler
                 </a>
                 <a asp-controller="Support" asp-action="Index" class="@(currentController == "Support" ? "active" : "")"
                    title="Her Adımda Yanındayız">
-                    <img src="https://img.icons8.com/?size=100&id=16140&format=png&color=000000" alt="">
                     Destek
                 </a>
                 <span class="nav-divider"></span>
@@ -84,8 +80,8 @@
                         <img src="https://img.icons8.com/?size=100&id=mj4zUKpD4IjJ&format=png&color=ffffff" alt="">
                     </a>
                     <div class="profile-info">
-                        <h6 class="profile-name">LerwyN</h6>
-                        <p class="profile-level">Seviye 12</p>
+                        <h6 class="profile-name">Test</h6>
+                        <p class="profile-level">Seviye 1</p>
                     </div>
                     <button class="profile-menu-toggle" id="profileMenuToggle" type="button"
                             aria-label="Profil menüsünü aç" aria-expanded="false">
@@ -93,8 +89,8 @@
                     </button>
                     <div class="profile-dropdown" id="profileDropdown">
                         <div class="profile-dropdown-header">
-                            <strong>LerwyN &</strong>
-                            <span> Seviye 12 · Admin</span>
+                            <strong>Test &</strong>
+                            <span> Seviye 1 · Admin</span>
                         </div>
                         <a href="#" class="profile-dropdown-item">
                             <img src="https://img.icons8.com/?size=100&id=mj4zUKpD4IjJ&format=png&color=000000" alt="">
@@ -132,7 +128,7 @@
             <div class="mobile-menu-profile">
                 <img src="https://img.icons8.com/?size=100&id=mj4zUKpD4IjJ&format=png&color=ffffff" alt="Profil">
                 <div>
-                    <strong>LerwyN</strong>
+                    <strong>Test</strong>
                     <p>Seviye 12</p>
                 </div>
             </div>
@@ -158,7 +154,7 @@
             </a>
             <div class="mobile-menu-divider"></div>
             <a href="#">
-                <img src="https://img.icons8.com/?size=100&id=sSZiheZL0ozl&format=png&color=ffffff" alt="">
+                <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff" alt="">
                 İstek Listem
             </a>
             <a href="#">
@@ -177,8 +173,9 @@
                 <img src="https://img.icons8.com/?size=100&id=4511GGVppfIx&format=png&color=ffffff" alt="">
                 Ayarlar
             </a>
+            <hr>
             <a href="#" class="logout-link">
-                <img src="https://img.icons8.com/?size=100&id=24338&format=png&color=d90000" alt="">
+                <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000" alt="">
                 Çıkış Yap
             </a>
         </nav>
@@ -196,16 +193,19 @@
         <div class="rune-footer-header">
             <h2 class="rune-store">Rune Store</h2>
             <div class="rune-footer-socials">
-                <a href="#" aria-label="Discord" title="Discord">
+                <a href="https://discord.gg/6xXKfcKhHJ" aria-label="Discord" title="Discord">
                     <img src="https://img.icons8.com/?size=100&id=B9UPHsL3gHI2&format=png&color=ffffff" alt="Discord" />
                 </a>
-                <a href="#" aria-label="X" title="X">
-                    <img src="https://img.icons8.com/?size=100&id=fJp7hepMryiw&format=png&color=ffffff" alt="X" />
+                <a href="https://github.com/LerwyN/Rune-Game-Platform" aria-label="GitHub" title="GitHub">
+                    <img src="https://img.icons8.com/?size=100&id=106567&format=png&color=ffffff" alt="GitHub" />
                 </a>
-                <a href="#" aria-label="Instagram" title="Instagram">
-                    <img src="https://img.icons8.com/?size=100&id=32292&format=png&color=ffffff" alt="Instagram" />
+                <a href="https://x.com/RuneStoreG" aria-label="X" title="X">
+                    <img src="https://img.icons8.com/?size=100&id=phOKFKYpe00C&format=png&color=ffffff" alt="X" />
                 </a>
-                <a href="#" aria-label="YouTube" title="YouTube">
+                <a href="https://www.instagram.com/runestoreofficial/" aria-label="Instagram" title="Instagram">
+                    <img src="https://img.icons8.com/?size=100&id=32309&format=png&color=ffffff" alt="Instagram" />
+                </a>
+                <a href="https://www.youtube.com/RuneStoree" aria-label="YouTube" title="YouTube">
                     <img src="https://img.icons8.com/?size=100&id=37326&format=png&color=ffffff" alt="YouTube" />
                 </a>
             </div>

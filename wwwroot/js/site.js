@@ -49,15 +49,6 @@ if (mobileMenuToggle && mobileMenu) {
   });
 }
 
-const filterButton = document.querySelector(".filter-button");
-const filterPanel = document.querySelector(".filter-panel");
-
-if (filterButton && filterPanel) {
-  filterButton.addEventListener("click", () => {
-    filterPanel.classList.toggle("show");
-  });
-}
-
 const navMiddle = document.querySelector(".navbar-middle");
 const activePill = document.querySelector(".nav-active-pill");
 
@@ -103,92 +94,88 @@ if (navMiddle && activePill) {
   });
 }
 
-const featuredGames = [
-  {
-    title: "Grand Theft Auto VI",
-    description:
-      "Vice City sokaklarında suç, aksiyon ve özgürlüğün sınırlarını keşfet.",
-    image: "/images/banners/GrandTheftAutoVI-Banner.avif",
-  },
-  {
-    title: "Ghost of Tsushima",
-    description: "Bir samurayın onur ve intikam mücadelesine katıl.",
-    image: "/images/banners/GhostofTsushima-Banner.jpg",
-  },
-  {
-    title: "DOOM: The Dark Ages",
-    description:
-      "The Dark Ages: Cehennem ordularına karşı amansız bir savaşa gir.",
-    image: "/images/banners/Doom-Banner.avif",
-  },
-  {
-    title: "The Witcher 3: Wild Hunt",
-    description: "Canavarlarla dolu karanlık bir dünyada kaderini yaz.",
-    image: "/images/banners/TheWitcher3WildHunt-Banner.jpg",
-  },
-  {
-    title: "Death Stranding 2: On the Beach",
-    description: "Parçalanmış bir dünyada insanlığı yeniden birleştir.",
-    image: "/images/banners/DeathStranding2OntheBeach-Banner.jpg",
-  },
-];
+const featuredOptions = Array.from(
+  document.querySelectorAll(".featured-game-option"),
+);
+const featuredGames = featuredOptions.map((option) => ({
+  title: option.dataset.featuredTitle || "",
+  description: option.dataset.featuredDescription || "",
+  image: option.dataset.featuredImage || "",
+  isSpecial: option.dataset.featuredKind === "special",
+}));
 
-featuredGames.forEach((game) => {
+const featuredBanner = document.querySelector("#featuredBanner");
+const bannerSlides = featuredGames;
+
+bannerSlides.forEach((game) => {
+  if (!game.image) return;
+
   const img = new Image();
   img.src = game.image;
 });
 
-let currentGameIndex = 0;
-
-const featuredBanner = document.querySelector("#featuredBanner");
+const specialSlideIndex = featuredGames.findIndex((game) => game.isSpecial);
+let currentGameIndex = specialSlideIndex >= 0 ? specialSlideIndex : 0;
 const bannerTitle = document.querySelector("#bannerTitle");
 const bannerDescription = document.querySelector("#bannerDescription");
+const detailsButton = document.querySelector("#detailsButton");
 const bannerProgressFill = document.querySelector(".banner-progress-fill");
-
-const featuredTrailer = document.querySelector("#featuredTrailer");
-
-let trailerHoverTimer;
 let bannerInterval;
-
-function isGtaTrailerGame() {
-  return featuredGames[currentGameIndex]?.title === "Grand Theft Auto VI";
-}
-
-function stopTrailer() {
-  clearTimeout(trailerHoverTimer);
-
-  if (featuredTrailer) {
-    featuredTrailer.pause();
-    featuredTrailer.currentTime = 0;
-    featuredTrailer.classList.remove("playing");
-  }
-}
+let bannerTransitionTimeout;
 
 function showFeaturedGame() {
   if (!featuredBanner || !bannerTitle || !bannerDescription) {
     return;
   }
 
-  const game = featuredGames[currentGameIndex];
+  const game = bannerSlides[currentGameIndex];
 
   if (!game) return;
 
-  stopTrailer();
+  featuredOptions.forEach((option, index) => {
+    const isActive = index === currentGameIndex;
+    option.classList.toggle("active", isActive);
+    option.setAttribute("aria-pressed", String(isActive));
+  });
+
+  featuredBanner.classList.toggle("banner-special-active", Boolean(game.isSpecial));
+  if (detailsButton) {
+    detailsButton.textContent = "İncele";
+  }
+  clearTimeout(bannerTransitionTimeout);
   featuredBanner.classList.add("banner-entering");
 
-  setTimeout(() => {
+  bannerTransitionTimeout = setTimeout(() => {
     bannerTitle.textContent = game.title;
     bannerDescription.textContent = game.description;
 
-    featuredBanner.style.setProperty(
-      "--banner-image",
-      `linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0) 100%), url("${game.image}")`,
-    );
+    if (game.image) {
+      featuredBanner.style.setProperty(
+        "--banner-image",
+        `linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0) 100%), url("${game.image}")`,
+      );
+    }
 
     requestAnimationFrame(() => {
       featuredBanner.classList.remove("banner-entering");
     });
   }, 250);
+}
+
+function advanceFeaturedGame() {
+  if (bannerSlides.length < 2) return;
+
+  currentGameIndex = (currentGameIndex + 1) % bannerSlides.length;
+  showFeaturedGame();
+  resetBannerProgress();
+}
+
+function restartBannerInterval() {
+  clearInterval(bannerInterval);
+
+  if (bannerSlides.length > 1 && featuredBanner) {
+    bannerInterval = setInterval(advanceFeaturedGame, 5000);
+  }
 }
 
 function resetBannerProgress() {
@@ -206,40 +193,19 @@ function resetBannerProgress() {
 }
 
 // Banner otomatik geçişi
-if (featuredGames.length > 0 && featuredBanner) {
+if (bannerSlides.length > 0 && featuredBanner) {
   showFeaturedGame();
   resetBannerProgress();
+  restartBannerInterval();
 
-  bannerInterval = setInterval(() => {
-    currentGameIndex++;
-
-    if (currentGameIndex >= featuredGames.length) {
-      currentGameIndex = 0;
-    }
-
-    showFeaturedGame();
-    resetBannerProgress();
-  }, 5000);
-}
-
-// GTA VI fragmanını 3 saniye sonra oynat
-if (featuredBanner && featuredTrailer) {
-  featuredBanner.addEventListener("mouseenter", () => {
-    if (!isGtaTrailerGame()) return;
-
-    trailerHoverTimer = setTimeout(async () => {
-      if (!isGtaTrailerGame()) return;
-
-      try {
-        await featuredTrailer.play();
-        featuredTrailer.classList.add("playing");
-      } catch (error) {
-        console.error("GTA VI fragmanı oynatılamadı:", error);
-      }
-    }, 3000);
+  featuredOptions.forEach((option, index) => {
+    option.addEventListener("click", () => {
+      currentGameIndex = index;
+      showFeaturedGame();
+      resetBannerProgress();
+      restartBannerInterval();
+    });
   });
-
-  featuredBanner.addEventListener("mouseleave", stopTrailer);
 }
 
 // Profil menüsü
