@@ -62,6 +62,19 @@ body>.container {
 }
 
 /* navbar */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transform: translateY(0);
+  transition: transform 0.25s ease;
+}
+
+.site-header.is-hidden {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
 .navbar-container {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -453,6 +466,79 @@ body>.container {
   margin-top: 20px;
 }
 
+.catalog-section {
+  margin: 28px 0 0;
+  min-width: 0;
+}
+
+.catalog-section h2 {
+  color: #f5f5f5;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.catalog-games {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 0 0 10px;
+  scrollbar-width: thin;
+}
+
+.catalog-game-card {
+  display: block;
+  flex: 0 0 clamp(220px, 28vw, 300px);
+  overflow: hidden;
+  color: #f5f5f5;
+  text-decoration: none;
+  background: #1b1b1b;
+  border: 1px solid #303030;
+  border-radius: 12px;
+}
+
+.catalog-game-banner {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #252525;
+}
+
+.catalog-game-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+}
+
+.catalog-game-info h3 {
+  overflow: hidden;
+  margin: 0;
+  color: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.catalog-game-price {
+  flex-shrink: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.catalog-empty {
+  margin: 0;
+  padding: 18px;
+  color: #aaa;
+  background: #1b1b1b;
+  border: 1px solid #303030;
+  border-radius: 12px;
+}
+
 .filter-wrapper {
   position: relative;
   flex-shrink: 0;
@@ -464,7 +550,8 @@ body>.container {
 .featured-game {
   width: 100%;
   min-width: 0;
-  height: 400px;
+  height: auto;
+  aspect-ratio: 16 / 9;
   margin: 14px 0 0;
   overflow: hidden;
   border-radius: 20px;
@@ -482,6 +569,7 @@ body>.container {
   overflow: hidden;
   width: 100%;
   height: 100%;
+  margin: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -552,69 +640,97 @@ body>.container {
 
 .banner-content {
   position: absolute;
-  left: 32px;
-  right: 32px;
-  top: 50%;
-  transform: translateY(0%);
-  max-width: 600px;
+  left: clamp(20px, 4vw, 48px);
+  right: auto;
+  top: 0;
+  bottom: 24px;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: min(520px, calc(100% - 40px));
+  max-width: 520px;
   z-index: 2;
+  text-align: left;
 }
 
 .banner-content h1 {
   color: #fff;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
   line-height: 1.2;
-  margin: 0 0 14px;
+  margin: 0 0 8px;
 }
 
 .banner-content p {
+  max-width: 480px;
   color: #f5f5f5;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
-  margin: 0 0 24px;
-}
-
-.game-label {
-  position: absolute;
-  top: -190px;
-  left: 1px;
-  display: inline-block;
-  background-color: #222;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 7px 12px;
-  border-radius: 20px;
-  letter-spacing: 0.5px;
-  margin: 0;
-  transform: none;
-  z-index: 3;
+  margin: 0 0 16px;
 }
 
 .banner-buttons {
   display: flex;
   align-items: center;
-  gap: 13px;
-  margin-bottom: 24px;
+  justify-content: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
 
 .banner-buttons button {
-  padding: 14px 24px;
+  min-height: 40px;
+  padding: 10px 18px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
   background-color: #fff;
   color: #222;
-  border: 1px solid #444444;
+  border: 1px solid #fff;
 }
 
 .banner-buttons button:hover {
-  background-color: #222;
+  background-color: #d6d6d6;
+  color: #000;
+  border-color: #c4c4c4;
+}
+
+.banner-buttons #detailsButton {
+  min-height: 50px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.banner-buttons .banner-wishlist-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0.16);
   color: #fff;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.banner-buttons .banner-wishlist-button:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.banner-wishlist-button img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  object-fit: contain;
 }
 
 /* bildirimler, günün fırsatı, arkadaşlar */
@@ -707,10 +823,10 @@ body>.container {
   position: absolute;
   left: 10px;
   bottom: 10px;
-  background-color: #222;
-  color: #fff;
+  background-color: #e60000;
+  color: #222;
   padding: 5px 8px;
-  border-radius: 8px;
+  border-radius: 20px;
   font-size: 13px;
   font-weight: 700;
 }
@@ -919,7 +1035,7 @@ body>.container {
 
 /* bar */
 .banner-progress {
-  width: 30%;
+  width: 26%;
   height: 4px;
   margin-top: 10px;
   background: #333;
@@ -927,6 +1043,7 @@ body>.container {
   overflow: hidden;
   box-sizing: border-box;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .banner-progress-fill {
@@ -1207,7 +1324,8 @@ body>.container {
   .featured-game {
     width: 100%;
     max-width: 100%;
-    height: clamp(280px, 36vw, 380px);
+    height: auto;
+    aspect-ratio: 16 / 9;
     box-sizing: border-box;
   }
 
@@ -1391,8 +1509,13 @@ body>.container {
   .featured-game {
     width: 100%;
     max-width: 100%;
-    height: 280px;
+    height: 320px;
+    aspect-ratio: auto;
     box-sizing: border-box;
+  }
+
+  .banner {
+    height: 100%;
   }
 
   .store-sidebar {
@@ -1403,27 +1526,26 @@ body>.container {
 
   /* banner yazıları */
   .banner-content {
-    left: 14px;
-    right: 14px;
-    top: auto;
+    left: 16px;
+    right: auto;
+    top: 0;
     bottom: 16px;
+    width: calc(100% - 32px);
     max-width: none;
+    align-items: flex-start;
+    text-align: left;
+    transform: none;
     box-sizing: border-box;
   }
 
-  .game-label {
-    top: auto;
-    bottom: calc(100% + 8px);
-  }
-
   .banner-content h1 {
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.2;
     margin-bottom: 8px;
   }
 
   .banner-content p {
-    max-width: 230px;
+    max-width: 100%;
     font-size: 12px;
     line-height: 1.4;
     margin-bottom: 12px;
@@ -1431,20 +1553,37 @@ body>.container {
 
   .banner-content button {
     max-width: 100%;
-    transform: translateY(-1px);
   }
 
   .banner-buttons {
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 14px;
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-bottom: 12px;
   }
 
   .banner-buttons button {
-    flex: 1 1 120px;
-    min-height: 44px;
-    padding: 10px 12px;
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding: 9px 14px;
     font-size: 14px;
+  }
+
+  .banner-buttons #detailsButton {
+    min-height: 46px;
+    padding: 10px 18px;
+    border-radius: 9px;
+    font-size: 15px;
+  }
+
+  .banner-buttons .banner-wishlist-button {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+    padding: 0;
+  }
+
+  .banner-progress {
+    width: 28%;
   }
 }
 

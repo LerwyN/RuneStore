@@ -13,4 +13,6 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
     public DbSet<Game> Games => Set<Game>();
+
+    
 }

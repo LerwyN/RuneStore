@@ -1,14 +1,28 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RUNE.Models;
+using RUNE.Data;
 
 namespace RUNE.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
+    private readonly ApplicationDbContext _context;
+
+    public HomeController(ApplicationDbContext context)
     {
-        return View();
+        _context = context;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        var games = await _context.Games
+            .Where(game => game.IsPublished)
+            .OrderBy(game => game.DisplayOrder)
+            .ToListAsync();
+
+        return View(games);
     }
 
     public IActionResult Privacy()

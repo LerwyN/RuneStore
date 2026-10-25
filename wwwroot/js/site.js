@@ -2,6 +2,30 @@
 
 const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
 const mobileMenu = document.querySelector("#mobileMenu");
+const siteHeader = document.querySelector(".site-header");
+
+if (siteHeader) {
+  let previousScrollY = window.scrollY;
+
+  window.addEventListener("mousemove", (event) => {
+    if (event.clientY <= 8 && siteHeader.classList.contains("is-hidden")) {
+      siteHeader.classList.remove("is-hidden");
+    }
+  });
+
+  window.addEventListener("scroll", () => {
+    const currentScrollY = window.scrollY;
+    const scrollDifference = currentScrollY - previousScrollY;
+
+    if (currentScrollY <= 24 || scrollDifference < -6) {
+      siteHeader.classList.remove("is-hidden");
+    } else if (scrollDifference > 6) {
+      siteHeader.classList.add("is-hidden");
+    }
+
+    previousScrollY = currentScrollY;
+  }, { passive: true });
+}
 
 if (mobileMenuToggle && mobileMenu) {
   mobileMenuToggle.addEventListener("click", () => {

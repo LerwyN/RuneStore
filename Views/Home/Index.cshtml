@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<RUNE.Models.Game>
+@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     ViewData["Title"] = "Rune'ye Hoş Geldiniz";
 }
@@ -11,7 +12,7 @@
             <button>
                 <img src="https://img.icons8.com/?size=100&id=TQPOC8XaUqZ0&format=png&color=ffffff" alt="">
             </button>
-            <input type="text" placeholder="Oyun, DLC, kategori veya geliştirici ara...">
+            <input type="text" placeholder="Oyun, DLC, kategori ara...">
         </div>
     </div>
     <div class="filter-wrapper">
@@ -65,21 +66,17 @@
     <main class="store-main">
         <div class="featured-game">
             <div class="banner" id="featuredBanner">
-                <video id="featuredTrailer" class="banner-video" muted playsinline preload="none">
-                    <source src="/videos/gta6-trailer-2.mp4" type="video/mp4">
-                </video>
                 <div class="banner-content">
-                    <span class="game-label">ÖNE ÇIKANLAR</span>
                     <h1 id="bannerTitle">Grand Theft Auto VI</h1>
                     <p id="bannerDescription">
                         Vice City'de suç ve özgürlüğün sınırlarını keşfet.
                     </p>
                     <div class="banner-buttons">
-                        <button type="button" id="trailerButton">
-                            Ön Sipariş Ver
-                        </button>
                         <button type="button" id="detailsButton">
-                            Detaylar
+                            İncele
+                        </button>
+                        <button type="button" id="wishlistButton" class="banner-wishlist-button" aria-label="İstek listesine ekle">
+                            <img src="https://img.icons8.com/?size=100&amp;id=qePzjQLJYgjF&amp;format=png&amp;color=ffffff" alt="" aria-hidden="true" />
                         </button>
                     </div>
                     <div class="banner-progress">
@@ -90,6 +87,31 @@
                 </div>
             </div>
         </div>
+        <section class="catalog-section" aria-labelledby="all-games-heading">
+            <h2 id="all-games-heading">Popüler Oyunlar</h2>
+            @if (Model.Any())
+            {
+                <div class="catalog-games">
+                    @foreach (var game in Model)
+                    {
+                        <article class="catalog-game-card">
+                            <img class="catalog-game-banner"
+                                 src="@game.BannerImagePath"
+                                 alt="@game.Title oyun görseli"
+                                 loading="lazy" />
+                            <div class="catalog-game-info">
+                                <h3>@game.Title</h3>
+                                <span class="catalog-game-price">₺ @game.Price.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                            </div>
+                        </article>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="catalog-empty">Mağazada henüz yayımlanmış oyun yok.</p>
+            }
+        </section>
     </main>
     <aside class="store-sidebar">
         <section class="sidebar-card notification-card">
@@ -115,14 +137,14 @@
             </div>
             <div class="deal-game">
                 <img class="deal-favorite" src="https://img.icons8.com/?size=100&id=64767&format=png&color=ffffff"
-                     alt="">
+                    alt="">
                 <span class="deal-discount">-45%</span>
             </div>
             <div class="deal-price">
                 <h4>Red Dead Redemption II</h4>
                 <div class="price-details">
-                    <span class="old-price">2.099,00 TL</span>
-                    <span class="new-price">1.154,45 TL</span>
+                    <span class="old-price">₺ 2.099,00</span>
+                    <span class="new-price">₺ 1.154,45</span>
                 </div>
             </div>
         </section>
