@@ -257,3 +257,67 @@ setTheme(savedTheme);
 
 darkThemeBtn?.addEventListener("click", () => setTheme("dark"));
 lightThemeBtn?.addEventListener("click", () => setTheme("light"));
+
+
+const whatsNewOverlay = document.querySelector("#whatsNewOverlay");
+const whatsNewDialog = document.querySelector("#whatsNewDialog");
+const whatsNewClose = document.querySelector("#whatsNewClose");
+const whatsNewOpenTriggers = document.querySelectorAll("[data-whats-new-open]");
+
+if (whatsNewOverlay && whatsNewDialog && whatsNewClose) {
+  const releaseVersion = whatsNewDialog.dataset.releaseVersion;
+  const seenVersionKey = "rune-whats-new-seen-version";
+  let seenVersion = null;
+
+  try {
+    seenVersion = window.localStorage.getItem(seenVersionKey);
+  } catch (error) {
+  }
+
+  whatsNewDialog.querySelectorAll(".whats-new-category").forEach((category) => {
+    const items = category.querySelectorAll("li");
+    category.hidden = items.length === 0;
+  });
+
+  const closeWhatsNewDialog = () => {
+    whatsNewOverlay.hidden = true;
+    document.body.classList.remove("whats-new-open");
+
+    try {
+      window.localStorage.setItem(seenVersionKey, releaseVersion);
+    } catch (error) {
+      
+    }
+  };
+
+  const openWhatsNewDialog = () => {
+    whatsNewOverlay.hidden = false;
+    document.body.classList.add("whats-new-open");
+    requestAnimationFrame(() => whatsNewClose.focus({ preventScroll: true }));
+  };
+
+  whatsNewClose.addEventListener("click", closeWhatsNewDialog);
+
+  whatsNewOpenTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      if (mobileMenu?.contains(trigger)) {
+        mobileMenu.classList.remove("show");
+        mobileMenuToggle?.setAttribute("aria-expanded", "false");
+      }
+
+      openWhatsNewDialog();
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !whatsNewOverlay.hidden) {
+      closeWhatsNewDialog();
+    }
+  });
+
+  if (seenVersion !== releaseVersion) {
+    openWhatsNewDialog();
+  }
+}

@@ -9,7 +9,6 @@ public class ApplicationDbContext : IdentityDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) //Veritabanı bağlatı zinciri
     {
-        
     }
 
     public DbSet<Game> Games => Set<Game>();

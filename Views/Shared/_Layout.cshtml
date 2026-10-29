@@ -1,5 +1,6 @@
 ﻿@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var runeVersion = "v0.1.1 Beta";
 }
 <!DOCTYPE html>
 <html lang="tr">
@@ -21,34 +22,39 @@
             <div class="navbar-logo">
                 <a class="rune-icon">
                     <img src="~/images/icons/RuneStore.png" alt="RUNE">
-                    <p class="version">Version: 0.1.0 BETA</p>
+                    
                 </a>
             </div>
             <nav class="navbar-middle">
                 <a asp-controller="Home" asp-action="Index" class="@(currentController == "Home" ? "active" : "")"
-                   title="Sıradaki Maceranı Keşfet">
+                    title="Sıradaki Maceranı Keşfet">
+                    <img src="https://img.icons8.com/?size=100&id=8386&format=png&color=000000">
                     Mağaza
                 </a>
                 <a asp-controller="Library" asp-action="Index" class="@(currentController == "Library" ? "active" : "")"
-                   title="Oyunların, Senin Dünyan">
-                    Kütüphane
+                    title="Arkadaşların İle Sohbet Etmeye Başla">
+                    <img src="https://img.icons8.com/?size=100&id=I5gVRW50I5mu&format=png&color=000000">
+                    Atölye & Araçlar
                 </a>
                 <a asp-controller="Community" asp-action="Index"
-                   class="@(currentController == "Community" ? "active" : "")" title="Oyun Dünyasının Buluşma Noktası">
+                    class="@(currentController == "Community" ? "active" : "")" title="Oyun Dünyasının Buluşma Noktası">
+                        <img src="https://img.icons8.com/?size=100&id=L6JR1iP6qIT5&format=png&color=000000">
                     Topluluk
                 </a>
                 <a asp-controller="News" asp-action="Index" class="@(currentController == "News" ? "active" : "")"
-                   title="Oyun Dünyasından Haberdar Ol">
+                    title="Oyun Dünyasından Haberdar Ol">
+                    <img src="https://img.icons8.com/?size=100&id=mNrmemIKiHu9&format=png&color=000000">
                     Haberler
                 </a>
                 <a asp-controller="Support" asp-action="Index" class="@(currentController == "Support" ? "active" : "")"
-                   title="Her Adımda Yanındayız">
+                    title="Her Adımda Yanındayız">
+                    <img src="https://img.icons8.com/?size=100&id=83756&format=png&color=000000" alt="">
                     Destek
                 </a>
                 <span class="nav-divider"></span>
                 <a href="#" title="Oyun Dünyası Seni Bekliyor">
                     <img class="img-icon" src="https://img.icons8.com/?size=100&id=cYqkhYrpp4xs&format=png&color=d90000"
-                         alt="">
+                        alt="">
                     Rune'yi İndir
                 </a>
                 <span class="nav-active-pill"></span>
@@ -59,25 +65,30 @@
 
                 <div class="wishlist-icon">
                     <div class="utility-item">
+                        <a href="#" title="Hediye Et">
+                            <img src="https://img.icons8.com/?size=100&id=U3EpMWy6CiKV&format=png&color=ffffff">
+                        </a>
+                    </div>
+                    <div class="utility-item">
                         <a href="#" title="İstek Listesi">
-                            <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff" alt="">
+                            <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff">
                         </a>
                     </div>
                     <div class="utility-item">
                         <a href="#" title="Bildirimler">
-                            <img src="https://img.icons8.com/?size=100&id=iBXDn4eGtFfA&format=png&color=ffffff" alt="">
+                            <img src="https://img.icons8.com/?size=100&id=iBXDn4eGtFfA&format=png&color=ffffff">
                         </a>
                     </div>
                     <div class="utility-item">
                         <a href="#" title="Sepetim">
-                            <img src="https://img.icons8.com/?size=100&id=Nf4fef5uGONQ&format=png&color=ffffff" alt="">
+                            <img src="https://img.icons8.com/?size=100&id=Nf4fef5uGONQ&format=png&color=ffffff">
                         </a>
                     </div>
                 </div>
         
                 <div class="profile-card">
                     <a class="user-icon" title="Profilim" href="#">
-                        <img src="https://img.icons8.com/?size=100&id=mj4zUKpD4IjJ&format=png&color=ffffff" alt="">
+                        <img src="https://img.icons8.com/?size=100&id=iBZNHkGbms4H&format=png&color=ffffff" alt="">
                     </a>
                     <div class="profile-info">
                         <h6 class="profile-name">Test</h6>
@@ -93,17 +104,17 @@
                             <span> Seviye 1 · Admin</span>
                         </div>
                         <a href="#" class="profile-dropdown-item">
-                            <img src="https://img.icons8.com/?size=100&id=mj4zUKpD4IjJ&format=png&color=000000" alt="">
+                            <img src="https://img.icons8.com/?size=100&id=iBZNHkGbms4H&format=png&color=ffffff" alt="">
                             Profilim
                         </a>
                         <a href="#" class="profile-dropdown-item">
                             <img src="https://img.icons8.com/?size=100&id=4511GGVppfIx&format=png&color=000000"
-                                 alt="">Ayarlar
+                                alt="">Ayarlar
                         </a>
                         <div class="profile-dropdown-divider"></div>
                         <button type="button" class="profile-dropdown-item dark-theme-btn">
                             <img src="https://img.icons8.com/?size=100&id=xlD3xOrQjTJO&format=png&color=000000"
-                                 alt="">Koyu Tema
+                                alt="">Koyu Tema
                         </button>
                         <button type="button" class="profile-dropdown-item light-theme-btn">
                             <img src="https://img.icons8.com/?size=100&id=648&format=png&color=000000" alt=""> Beyaz
@@ -112,7 +123,7 @@
                         <div class="profile-dropdown-divider"></div>
                         <button type="button" class="profile-dropdown-item logout-link">
                             <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000"
-                                 alt="">Çıkış Yap
+                                alt="">Çıkış Yap
                         </button>
                     </div>
                 </div>
@@ -126,10 +137,10 @@
         </div>
         <nav class="mobile-menu" id="mobileMenu">
             <div class="mobile-menu-profile">
-                <img src="https://img.icons8.com/?size=100&id=mj4zUKpD4IjJ&format=png&color=ffffff" alt="Profil">
+                <img src="https://img.icons8.com/?size=100&id=iBZNHkGbms4H&format=png&color=ffffff" alt="Profil">
                 <div>
                     <strong>Test</strong>
-                    <p>Seviye 12</p>
+                    <p>Seviye 1</p>
                 </div>
             </div>
             <a asp-controller="Home" asp-action="Index">
@@ -154,6 +165,10 @@
             </a>
             <div class="mobile-menu-divider"></div>
             <a href="#">
+                <img src="https://img.icons8.com/?size=100&id=U3EpMWy6CiKV&format=png&color=ffffff" alt="">
+                Hediye Et
+            </a>
+            <a href="#">
                 <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff" alt="">
                 İstek Listem
             </a>
@@ -173,7 +188,7 @@
                 <img src="https://img.icons8.com/?size=100&id=4511GGVppfIx&format=png&color=ffffff" alt="">
                 Ayarlar
             </a>
-            <hr>
+            <hr class="border border-white">
             <a href="#" class="logout-link">
                 <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000" alt="">
                 Çıkış Yap
@@ -181,13 +196,13 @@
         </nav>
     </header>
 
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    
     
     <footer class="rune-footer">
         <div class="rune-footer-header">
@@ -222,6 +237,7 @@
             </div>
             <div class="rune-footer-column">
                 <h3>Keşfet</h3>
+                <a href="#">Popüler Oyunlar</a>
                 <a href="#">Öne Çıkanlar</a>
                 <a href="#">Çok Satanlar</a>
                 <a href="#">Yakında Gelecekler</a>
@@ -268,6 +284,74 @@
             </div>
         </div>
     </footer>
+
+    <div class="whats-new-overlay" id="whatsNewOverlay" hidden>
+        <section class="whats-new-dialog"
+                id="whatsNewDialog"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="whatsNewTitle"
+                aria-describedby="whatsNewDescription"
+                data-release-version="@runeVersion"
+                tabindex="-1">
+            <button class="whats-new-close"
+                    id="whatsNewClose"
+                    type="button"
+                    aria-label="Güncelleme penceresini kapat"
+                    title="Kapat">
+                <span class="mb-2" aria-hidden="true">×</span>
+            </button>
+
+            <header class="whats-new-header">
+                <span class="whats-new-eyebrow">Rune · Güncelleme Notları</span>
+                <h2 id="whatsNewTitle">Yenilikler</h2>
+                <p id="whatsNewDescription">Eklenen, güncellenen ve düzeltilenleri burada görebilirsin.</p>
+            </header>
+
+            <div class="whats-new-history">
+                <article class="whats-new-release">
+                    <header class="whats-new-release-header">
+                        <h3>@runeVersion</h3>
+                        <time datetime="2026-10-29">29 Eki 2026</time>
+                    </header>
+
+                    <div class="whats-new-categories">
+                        <section class="whats-new-category" data-update-category="new">
+                            <h4><span class="whats-new-label">Yeni</span></h4>
+                            <ul>
+                                <li>Cadılar Bayramı etkinliği mağaza banner'ına eklendi.</li>
+                                <li>Öne çıkan oyunları sağdaki listeden seçebilirsin.</li>
+                                <li>Hediye et sistemi geldi.</li>
+                            </ul>
+                        </section>
+
+                        <section class="whats-new-category" data-update-category="updated">
+                            <h4><span class="whats-new-label">Güncellendi</span></h4>
+                            <ul>
+                                <li>Mağaza banner'ı ve oyun listesi mobil ekranlara göre düzenlendi.</li>
+                                <li>Mobil cihazlar simgeler daha iyi hale geldi.</li>
+                                <li>Arama kutusu daha iyi hale geldi.</li>
+                                <li>Simgiler daha iyi hale geldi.</li>
+                            </ul>
+                        </section>
+
+                        <section class="whats-new-category" data-update-category="fixed">
+                            <h4><span class="whats-new-label">Düzeltildi</span></h4>
+                            <ul>
+                                <li>Dar mobil ekranlardaki yatay sayfa kayması giderildi.</li>
+                                <li>Banner yanındaki oyun görselleri hizlandı</li>
+                            </ul>
+                        </section>
+
+                        <section class="whats-new-category" data-update-category="removed">
+                            <h4><span class="whats-new-label">Kaldırıldı</span></h4>
+                            <ul></ul>
+                        </section>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

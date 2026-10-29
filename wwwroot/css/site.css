@@ -94,16 +94,8 @@ body>.container {
   display: block;
   height: 40px;
   width: auto;
-  padding-left: 64px;
-  transform: translateY(10px);
+  transform: translateX(69px);
   cursor: default;
-}
-
-.version {
-  font-size: 10px;
-  padding-left: 62px;
-  color: #a5a5a5;
-  transform: translateY(7px);
 }
 
 /* orta menu */
@@ -635,6 +627,7 @@ body>.container {
 .featured-game-list {
   display: flex;
   flex-direction: column;
+  align-self: center;
   gap: 4px;
   min-width: 0;
   max-height: 540px;
@@ -1856,6 +1849,8 @@ body>.container {
 
   .featured-game-list {
     flex-direction: row;
+    align-self: stretch;
+    transform: none;
     gap: 8px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -2204,13 +2199,13 @@ body>.container {
   }
 }
 
-/* Dark theme finishing touches: keep navigation icons readable. */
+
 .navbar-middle a img,
 .navbar-middle a.active img {
   filter: brightness(0) invert(1);
 }
 
-/* Keyboard focus remains visible against the dark interface. */
+
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
@@ -2219,4 +2214,293 @@ body>.container {
   box-shadow:
     0 0 0 0.1rem #101010,
     0 0 0 0.25rem #ffffff;
+}
+
+
+body.whats-new-open {
+  overflow: hidden;
+}
+
+.whats-new-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #38383d;
+  border-radius: 999px;
+  background: #252529;
+  color: #f5f5f5;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.whats-new-trigger:hover {
+  background: #38383d;
+}
+
+.whats-new-trigger-dot {
+  display: inline-block;
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a99aff;
+}
+
+.whats-new-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(5, 5, 7, 0.78);
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+}
+
+.whats-new-overlay[hidden],
+.whats-new-category[hidden] {
+  display: none !important;
+}
+
+.whats-new-dialog {
+  position: relative;
+  width: min(820px, 100%);
+  max-height: min(820px, calc(100dvh - 40px));
+  overflow-y: auto;
+  padding: clamp(22px, 4vw, 36px);
+  border: 1px solid #37373c;
+  border-radius: 20px;
+  background: #18181b;
+  color: #f5f5f5;
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+}
+
+.whats-new-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #38383d;
+  border-radius: 50%;
+  background: #252529;
+  color: #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.whats-new-close:hover {
+  background: #38383d;
+}
+
+.whats-new-close:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.whats-new-close span {
+  font-size: 27px;
+  line-height: 1;
+}
+
+.whats-new-header {
+  margin-bottom: 24px;
+  padding-right: 42px;
+}
+
+.whats-new-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #a99aff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.whats-new-header h2 {
+  margin: 0 0 7px;
+  color: #ffffff;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.whats-new-header p {
+  margin: 0;
+  color: #aaaab2;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.whats-new-categories {
+  display: grid;
+  gap: 10px;
+}
+
+.whats-new-category {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  min-width: 0;
+  --release-color: #67d991;
+}
+
+.whats-new-category[data-update-category="new"] {
+  --release-color: #67d991;
+}
+
+.whats-new-category[data-update-category="updated"] {
+  --release-color: #ffad5c;
+}
+
+.whats-new-category[data-update-category="fixed"] {
+  --release-color: #f4d35e;
+}
+
+.whats-new-category[data-update-category="removed"] {
+  --release-color: #ff6b72;
+}
+
+.whats-new-category h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.whats-new-label {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--release-color) 20%, transparent);
+  color: var(--release-color);
+}
+
+.whats-new-category ul {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.whats-new-category li {
+  position: relative;
+  margin-left: 5px;
+  padding: 0 0 16px 22px;
+  border-left: 2px solid #39393f;
+  color: #d2d2d7;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.whats-new-category li::before {
+  position: absolute;
+  top: 5px;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--release-color);
+  content: "";
+}
+
+.whats-new-category li:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+.whats-new-history {
+  display: grid;
+  gap: 22px;
+}
+
+.whats-new-release {
+  padding-bottom: 22px;
+  border-bottom: 1px solid #37373c;
+}
+
+.whats-new-release:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.whats-new-release-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.whats-new-release-header h3 {
+  margin: 0;
+  color: #f5f5f5;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.whats-new-release-header time {
+  color: #a9a9b1;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .whats-new-overlay {
+    padding: 12px;
+  }
+
+  .whats-new-dialog {
+    max-height: calc(100dvh - 24px);
+    padding: 22px 18px;
+    border-radius: 16px;
+  }
+
+  .whats-new-close {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .whats-new-header {
+    margin-bottom: 18px;
+    padding-right: 36px;
+  }
+
+  .whats-new-categories {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .whats-new-category {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .whats-new-release-header {
+    gap: 6px 10px;
+    margin-bottom: 14px;
+  }
+
+  .whats-new-release-header h3 {
+    font-size: 16px;
+  }
+
+  .whats-new-release-header time {
+    font-size: 12px;
+  }
 }
