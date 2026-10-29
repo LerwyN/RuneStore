@@ -17,7 +17,7 @@ public static class GameSeeder
             {
                 Title = "Grand Theft Auto V",
                 Description = "Los Santos'ta geçen açık dünya aksiyon-macera oyunu.",
-                Price = 799.00m,
+                Price = 1.049m,
                 Slug = "grand-theft-auto-v",
                 Genre = "Aksiyon-Macera",
                 Developer = "Rockstar North",

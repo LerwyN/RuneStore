@@ -497,9 +497,7 @@ C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\rjs
 C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\scopedcss\bundle\RUNE.styles.css
 C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\scopedcss\projectbundle\RUNE.bundle.scp.css
-C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\jvdtznjhwd-{0}-wdwfp65awx-wdwfp65awx.gz
 C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\9388oo6b5s-{0}-61n19gt1b8-61n19gt1b8.gz
-C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\7zmwwo6tkt-{0}-o7fb0ataur-o7fb0ataur.gz
 C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\vzybg8pqz6-{0}-bqjiyaj88i-bqjiyaj88i.gz
 C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\h3lpntsu4o-{0}-c2jlpeoesf-c2jlpeoesf.gz
 C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\c3egwkbcu7-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -783,3 +781,5 @@ C:\Users\egeke\OneDrive\Ekler\Belgeler\RuneStore\obj\Debug\net10.0\refint\RUNE.d
 C:\Users\egeke\OneDrive\Ekler\Belgeler\RuneStore\obj\Debug\net10.0\RUNE.pdb
 C:\Users\egeke\OneDrive\Ekler\Belgeler\RuneStore\obj\Debug\net10.0\RUNE.genruntimeconfig.cache
 C:\Users\egeke\OneDrive\Ekler\Belgeler\RuneStore\obj\Debug\net10.0\ref\RUNE.dll
+C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\jvdtznjhwd-{0}-d09sjajfcv-d09sjajfcv.gz
+C:\Users\lawli\OneDrive\Belgeler\GitHub\Rune-Game-Platform\obj\Debug\net10.0\compressed\7zmwwo6tkt-{0}-2pr6nz1ir7-2pr6nz1ir7.gz

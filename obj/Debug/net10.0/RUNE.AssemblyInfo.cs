@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RUNE")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92c440d2b73f611e2cdc868e22c9c3df5602d692")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd155ad1ae7c53a66da7b797c4bf8edb16805369")]
 [assembly: System.Reflection.AssemblyProductAttribute("RUNE")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RUNE")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

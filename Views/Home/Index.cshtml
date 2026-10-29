@@ -1,9 +1,10 @@
-﻿@model IEnumerable<RUNE.Models.Game>
+﻿@using RUNE.Data
+@model IEnumerable<RUNE.Models.Game>
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     ViewData["Title"] = "Rune'ye Hoş Geldiniz";
-    var featuredGames = Model.Take(5).ToList();
-    var catalogGames = Model.Where(game => game.Slug == "grand-theft-auto-v").ToList();
+    var featuredGames = Model.Take(6).ToList();
+    var catalogGames = Model.Take(10).ToList();
 }
 
 
@@ -43,13 +44,16 @@
                         style="--banner-image: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0) 100%), url('/images/Specials/holloween-sale.png');">
                     <div class="banner-content">
                         <h1 id="bannerTitle">Cadılar Bayramı İndirimi</h1>
-                        <p id="bannerDescription">Cadılar Bayramı'na özel seçili oyunlarda indirimleri keşfet.</p>
+                        <p id="bannerDescription"></p>
                         <div class="banner-buttons">
                             <button type="button" id="detailsButton">
                                 İncele
                             </button>
                             <button type="button" id="wishlistButton" class="banner-wishlist-button" aria-label="İstek listesine ekle">
                                 <img src="https://img.icons8.com/?size=100&amp;id=qePzjQLJYgjF&amp;format=png&amp;color=ffffff" alt="" aria-hidden="true" />
+                            </button>
+                            <button type="button" id="wishlistButton" class="banner-wishlist-button">
+                                <img src="https://img.icons8.com/?size=100&id=1EMGz1hotW1E&format=png&color=ffffff" alt="">
                             </button>
                         </div>
                         <div class="banner-progress">
@@ -65,11 +69,11 @@
                     <button type="button"
                             class="featured-game-option featured-promo-option active"
                             data-featured-title="Cadılar Bayramı İndirimi"
-                            data-featured-description="Cadılar Bayramı'na özel seçili oyunlarda indirimleri keşfet."
-                            data-featured-image="/images/Specials/holloween-sale.png"
+                            data-featured-description="Rune Games Cadılar Bayramı İndirimi boyunca %80'e varan tüyler ürpertici indirimlerden yararlan. "
+                            data-featured-image="/images/Specials/holloween-banner.jpg"
                             data-featured-kind="special"
                             aria-pressed="true">
-                        <img src="/images/Specials/holloween-profile.png" alt="" loading="lazy" />
+                        <img src="/images/Specials/holloween-profile.jpg" alt="" loading="lazy" />
                         <span class="featured-game-option-title">Cadılar Bayramı İndirimi</span>
                     </button>
                     @foreach (var game in featuredGames)
@@ -92,10 +96,36 @@
             }
         </div>
         <section class="catalog-section" aria-labelledby="all-games-heading">
-            <h2 id="all-games-heading">Popüler Oyunlar</h2>
+            <div class="catalog-heading-row">
+                <h2 id="all-games-heading">Popüler Oyunlar</h2>
+                @if (catalogGames.Count > 1)
+                {
+                    <div class="catalog-carousel-controls" aria-label="Popüler oyunlarda gezin">
+                        <button type="button"
+                                class="catalog-scroll-button"
+                                data-catalog-scroll="-1"
+                                aria-label="Önceki oyunlar"
+                                aria-controls="popularGamesScroller"
+                                disabled>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
+                        </button>
+                        <button type="button"
+                                class="catalog-scroll-button"
+                                data-catalog-scroll="1"
+                                aria-label="Sonraki oyunlar"
+                                aria-controls="popularGamesScroller">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="m9 18 6-6-6-6" />
+                            </svg>
+                        </button>
+                    </div>
+                }
+            </div>
             @if (catalogGames.Any())
             {
-                <div class="catalog-games">
+                <div class="catalog-games" id="popularGamesScroller" tabindex="0" aria-label="Popüler oyunlar">
                     @foreach (var game in catalogGames)
                     {
                         <article class="catalog-game-card">
@@ -105,6 +135,84 @@
                                 alt="@game.Title oyun görseli"
                                 loading="lazy" />
                             </a>
+                            <button type="button"
+                                    class="catalog-game-wishlist-button"
+                                    data-game-id="@game.Id"
+                                    aria-label="İstek listesine ekle: @game.Title"
+                                    title="İstek listesine ekle">
+                                <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff"
+                                    alt=""
+                                    aria-hidden="true"
+                                    loading="lazy" />
+                            </button>
+                            <div class="catalog-game-info">
+                                <h3>@game.Title</h3>
+                                @if (game.Price > 0)
+                                {
+                                    <span class="catalog-game-price">₺ @game.Price.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                                }
+                                else
+                                {
+                                    <span class="catalog-game-price catalog-game-price-pending">Fiyat yakında</span>
+                                }
+                            </div>
+                        </article>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="catalog-empty">Mağazada henüz yayımlanmış oyun yok.</p>
+            }
+            <div class="catalog-heading-row mt-3">
+                <h2 id="featured-games-heading">Öne Çıkan Oyunlar</h2>
+                @if (catalogGames.Count > 1)
+                {
+                    <div class="catalog-carousel-controls" aria-label="Öne çıkan oyunlarda gezin">
+                        <button type="button"
+                                class="catalog-scroll-button"
+                                data-catalog-scroll="-1"
+                                aria-label="Önceki oyunlar"
+                                aria-controls="featuredGamesScroller"
+                                disabled>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
+                        </button>
+                        <button type="button"
+                                class="catalog-scroll-button"
+                                data-catalog-scroll="1"
+                                aria-label="Sonraki oyunlar"
+                                aria-controls="featuredGamesScroller">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="m9 18 6-6-6-6" />
+                            </svg>
+                        </button>
+                    </div>
+                }
+            </div>
+            @if (catalogGames.Any())
+            {
+                <div class="catalog-games" id="featuredGamesScroller" tabindex="0" aria-label="Öne Çıkanlar">
+                    @foreach (var game in catalogGames)
+                    {
+                        <article class="catalog-game-card">
+                            <a href="">
+                                <img class="catalog-game-banner"
+                                src="@game.BannerImagePath"
+                                alt="@game.Title oyun görseli"
+                                loading="lazy" />
+                            </a>
+                            <button type="button"
+                                    class="catalog-game-wishlist-button"
+                                    data-game-id="@game.Id"
+                                    aria-label="İstek listesine ekle: @game.Title"
+                                    title="İstek listesine ekle">
+                                <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff"
+                                    alt=""
+                                    aria-hidden="true"
+                                    loading="lazy" />
+                            </button>
                             <div class="catalog-game-info">
                                 <h3>@game.Title</h3>
                                 @if (game.Price > 0)

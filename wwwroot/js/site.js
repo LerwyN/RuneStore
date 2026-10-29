@@ -4,6 +4,51 @@ const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
 const mobileMenu = document.querySelector("#mobileMenu");
 const siteHeader = document.querySelector(".site-header");
 
+const carouselButtonsByScroller = new Map();
+
+document
+  .querySelectorAll("[data-catalog-scroll][aria-controls]")
+  .forEach((button) => {
+    const scroller = document.getElementById(button.getAttribute("aria-controls"));
+    if (!scroller) return;
+
+    const buttons = carouselButtonsByScroller.get(scroller) || [];
+    buttons.push(button);
+    carouselButtonsByScroller.set(scroller, buttons);
+  });
+
+carouselButtonsByScroller.forEach((buttons, scroller) => {
+  const updateScrollButtons = () => {
+    const maxScrollLeft = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+    const isAtStart = scroller.scrollLeft <= 1;
+    const isAtEnd = scroller.scrollLeft >= maxScrollLeft - 1;
+
+    buttons.forEach((button) => {
+      const direction = Number(button.dataset.catalogScroll);
+      button.disabled = direction < 0 ? isAtStart : isAtEnd;
+    });
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const direction = Number(button.dataset.catalogScroll);
+      const scrollDistance = Math.max(scroller.clientWidth * 0.8, 260);
+
+      scroller.scrollBy({
+        left: direction * scrollDistance,
+        behavior: "smooth",
+      });
+    });
+  });
+
+  scroller.addEventListener("scroll", updateScrollButtons, { passive: true });
+  window.addEventListener("resize", updateScrollButtons, { passive: true });
+  updateScrollButtons();
+});
+
 if (siteHeader) {
   let previousScrollY = window.scrollY;
 
@@ -95,7 +140,7 @@ if (navMiddle && activePill) {
 }
 
 const featuredOptions = Array.from(
-  document.querySelectorAll(".featured-game-option"),
+  document.querySelectorAll(".featured-game-list .featured-game-option"),
 );
 const featuredGames = featuredOptions.map((option) => ({
   title: option.dataset.featuredTitle || "",
