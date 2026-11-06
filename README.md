@@ -1,31 +1,33 @@
-# Rune — Dijital Oyun Platformu
+# Rune
 
-Rune, modern tasarımıyla dijital oyun mağazası deneyimi sunmayı amaçlayan bir platform projesidir.
+Rune is a digital gaming platform inspired by Steam and Epic Games Store.
 
-## Mevcut Modüller
-- Mağaza arayüzü
-- Oyun arama arayüzü
-- Modern ve kullanıcı dostu tasarım
+The project aims to bring game discovery, purchasing, community features, news, events, workshop and gaming tools together in a single platform.
 
-## Planlanan Modüller
-- **Kütüphane:** Oyunları tek bir yerde yönetme.
-- **Topluluk:** Oyuncular için sosyal alan.
-- **Haberler:** Oyun dünyasından güncellemeler.
-- **İstek Listesi:** Favori oyunları kaydetme.
-- **Sepet:** Satın alma işlemlerini yönetme.
-- **Kullanıcı Hesabı:** Profil ve hesap yönetimi.
-- **Bildirimler:** Önemli gelişmelerden haberdar olma.
+## Features
 
-## Teknolojiler
+- Game Store
+- Explore
+- Community
+- News
+- Events
+- Workshop
+- Tools
+- Desktop Application
+
+## Technologies
+
 - C#
-- ASP.NET Core MVC
+- .NET
+- ASP.NET Core
 - Entity Framework Core
-- HTML, CSS, Bootstrap, JavaScript
+- HTML
+- CSS
+- JavaScript
+- Bootstrap
+- PostgreSQL
+- Git & GitHub
 
-## Hedef
-Rune'u gelişmiş özelliklere sahip bir oyun platformuna dönüştürmek ve gelecekte masaüstü uygulamasıyla genişletmek.
+## Goal
 
-**Rune — Oyun dünyasına açılan yeni bir kapı.**
-
-## Demo
-[Take a look at Rune](https://rune-game-platform.onrender.com/)
+To build a comprehensive gaming ecosystem that brings players, developers and gaming communities together.
