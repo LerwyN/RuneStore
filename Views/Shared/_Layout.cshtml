@@ -1,6 +1,6 @@
 ﻿@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-    var runeVersion = "v0.1.1 Beta";
+    var runeVersion = "v0.1.11 Beta";
 }
 <!DOCTYPE html>
 <html lang="tr">
@@ -21,40 +21,81 @@
         <div class="navbar-container">
             <div class="navbar-logo">
                 <a class="rune-icon">
-                    <img src="~/images/icons/RuneStore.png" alt="RUNE">
-                    
+                    <img src="~/images/icons/RuneStore.png" alt="rune">
                 </a>
             </div>
             <nav class="navbar-middle">
                 <a asp-controller="Home" asp-action="Index" class="@(currentController == "Home" ? "active" : "")"
-                    title="Sıradaki Maceranı Keşfet">
-                    <img src="https://img.icons8.com/?size=100&id=8386&format=png&color=000000">
+                   title="Sıradaki Maceranı Keşfet">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="26" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                        d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304" />
+                        <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
+                    </svg>
                     Mağaza
                 </a>
                 <a asp-controller="Library" asp-action="Index" class="@(currentController == "Library" ? "active" : "")"
-                    title="Araçlar ve Atölye Keşfet">
-                    <img src="https://img.icons8.com/?size=100&id=I5gVRW50I5mu&format=png&color=000000">
-                    Atölye & Araçlar
+                   title="Atölye Keşfet">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-tool">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
+                    </svg>
+                    Atölye
                 </a>
                 <a asp-controller="Community" asp-action="Index"
-                    class="@(currentController == "Community" ? "active" : "")" title="Oyun Dünyasının Buluşma Noktası">
-                        <img src="https://img.icons8.com/?size=100&id=L6JR1iP6qIT5&format=png&color=000000">
+                   class="@(currentController == "Community" ? "active" : "")" title="Oyun Dünyasının Buluşma Noktası">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                    </svg>
                     Topluluk
                 </a>
                 <a asp-controller="News" asp-action="Index" class="@(currentController == "News" ? "active" : "")"
-                    title="Oyun Dünyasından Haberdar Ol">
-                    <img src="https://img.icons8.com/?size=100&id=mNrmemIKiHu9&format=png&color=000000">
+                   title="Oyun Dünyasından Haberdar Ol">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-news">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path
+                        d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
+                        <path d="M8 8l4 0" />
+                        <path d="M8 12l4 0" />
+                        <path d="M8 16l4 0" />
+                    </svg>
                     Haberler
                 </a>
                 <a asp-controller="Support" asp-action="Index" class="@(currentController == "Support" ? "active" : "")"
-                    title="Her Adımda Yanındayız">
-                    <img src="https://img.icons8.com/?size=100&id=83756&format=png&color=000000" alt="">
+                   title="Her Adımda Yanındayız">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-help">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                        <path d="M12 17l0 .01" />
+                        <path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4" />
+                    </svg>
                     Destek
                 </a>
                 <span class="nav-divider"></span>
                 <a href="#" title="Oyun Dünyası Seni Bekliyor">
-                    <img class="img-icon" src="https://img.icons8.com/?size=100&id=cYqkhYrpp4xs&format=png&color=d90000"
-                        alt="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-download">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+                        <path d="M7 11l5 5l5 -5" />
+                        <path d="M12 4l0 12" />
+                    </svg>
                     Rune'yi İndir
                 </a>
                 <span class="nav-active-pill"></span>
@@ -65,33 +106,60 @@
 
                 <div class="wishlist-icon">
                     <div class="utility-item">
-                        <a href="#" title="Hediye Et">
-                            <img src="https://img.icons8.com/?size=100&id=1EMGz1hotW1E&format=png&color=ffffff">
-                        </a>
-                    </div>
-                    <div class="utility-item">
                         <a href="#" title="İstek Listesi">
-                            <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
+                            </svg>
                         </a>
                     </div>
                     <div class="utility-item">
-                        <a href="#" title="Bildirimler">
-                            <img src="https://img.icons8.com/?size=100&id=iBXDn4eGtFfA&format=png&color=ffffff">
+                        <a href="#" title="Hediye Et">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                 stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
+                                <path d="M12 8l0 13" />
+                                <path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7" />
+                                <path
+                                d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
+                            </svg>
                         </a>
                     </div>
                     <div class="utility-item">
                         <a href="#" title="Sepetim">
-                            <img src="https://img.icons8.com/?size=100&id=Nf4fef5uGONQ&format=png&color=ffffff">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M4 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M15 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M17 17h-11v-14h-2" />
+                                <path d="M6 5l14 1l-1 7h-13" />
+                            </svg>
                         </a>
                     </div>
                 </div>
         
                 <div class="profile-card">
                     <a class="user-icon" title="Profilim" href="#">
-                        <img src="https://img.icons8.com/?size=100&id=iBZNHkGbms4H&format=png&color=ffffff" alt="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                             stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                            <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                            <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                        </svg>
                     </a>
                     <div class="profile-info">
-                        <h6 class="profile-name">Test</h6>
+                        <h6 class="profile-name">Rune User</h6>
                         <p class="profile-level">Seviye 1</p>
                     </div>
                     <button class="profile-menu-toggle" id="profileMenuToggle" type="button"
@@ -109,12 +177,12 @@
                         </a>
                         <a href="#" class="profile-dropdown-item">
                             <img src="https://img.icons8.com/?size=100&id=4511GGVppfIx&format=png&color=000000"
-                                alt="">Ayarlar
+                                 alt="">Ayarlar
                         </a>
                         <div class="profile-dropdown-divider"></div>
                         <button type="button" class="profile-dropdown-item dark-theme-btn">
                             <img src="https://img.icons8.com/?size=100&id=xlD3xOrQjTJO&format=png&color=000000"
-                                alt="">Koyu Tema
+                                 alt="">Koyu Tema
                         </button>
                         <button type="button" class="profile-dropdown-item light-theme-btn">
                             <img src="https://img.icons8.com/?size=100&id=648&format=png&color=000000" alt=""> Beyaz
@@ -123,7 +191,7 @@
                         <div class="profile-dropdown-divider"></div>
                         <button type="button" class="profile-dropdown-item logout-link">
                             <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000"
-                                alt="">Çıkış Yap
+                                 alt="">Çıkış Yap
                         </button>
                     </div>
                 </div>
@@ -269,97 +337,78 @@
             </div>
         </div>
         <div class="rune-footer-bottom">
-            <p>© 2026 Rune. Gösterilen tüm oyunlar, başlıklar ve ilgili görseller ilgili yayıncıların tescilli markalarıdır.</p>
+            <p>© 2026 Rune. Gösterilen tüm oyunlar, başlıklar ve ilgili görseller ilgili yayıncıların tescilli
+                markalarıdır.</p>
 
-            <div class="rune-footer-bottom-right">
-                <a href="#">Gizlilik</a>
-                <a href="#">Koşullar</a>
-                <span>TR · Türkiye</span>
+                <div class="rune-footer-bottom-right">
+                    <a href="#">Gizlilik</a>
+                    <a href="#">Koşullar</a>
+                    <span>TR · Türkiye</span>
 
-                <button type="button" class="rune-back-to-top"
-                        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-                    <span>↑</span>
-                    Yukarı çık
+                    <button type="button" class="rune-back-to-top"
+                            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                        <span>↑</span>
+                        Yukarı çık
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+        <div class="whats-new-overlay" id="whatsNewOverlay" hidden>
+            <section class="whats-new-dialog" id="whatsNewDialog" role="dialog" aria-modal="true"
+                     aria-labelledby="whatsNewTitle" aria-describedby="whatsNewDescription" data-release-version="@runeVersion"
+                     tabindex="-1">
+                <button class="whats-new-close" id="whatsNewClose" type="button" aria-label="Güncelleme penceresini kapat"
+                        title="Kapat">
+                    <span class="mb-2" aria-hidden="true">×</span>
                 </button>
-            </div>
+
+                <header class="whats-new-header">
+                    <span class="whats-new-eyebrow">Rune · Güncelleme Yamaları</span>
+                    <h2 id="whatsNewTitle">Yenilikler</h2>
+                    <p id="whatsNewDescription">Eklenen, güncellenen ve kaldırılanları burada görebilirsin.</p>
+                </header>
+
+                <div class="whats-new-history">
+                    <article class="whats-new-release">
+                        <header class="whats-new-release-header">
+                            <h3>@runeVersion</h3>
+                            <time datetime="2026-11-10">11 Kas 2026</time>
+                        </header>
+
+                        <div class="whats-new-categories">
+                            <section class="whats-new-category" data-update-category="new">
+                                <h4><span class="whats-new-label">Yeni</span></h4>
+                                <ul>
+                                    <li>Oyunun detay safyası getirldi.</li>
+                                </ul>
+                            </section>
+
+                            <section class="whats-new-category" data-update-category="updated">
+                                <h4><span class="whats-new-label">Güncellendi</span></h4>
+                                <ul>
+                                    <li>İconlar daha iyi hale getirldi.</li>
+                                    <li>Grand Theft Auto VI görseli gelmemesi giderildi.</li>
+                                    <li></li>
+                                </ul>
+                            </section>
+
+                            <section class="whats-new-category" data-update-category="removed">
+                                <h4><span class="whats-new-label">Kaldırıldı</span></h4>
+                                <ul>
+                                    <li>Cadılar bayramı posteri kaldırıldı.</li>
+                                </ul>
+                            </section>
+                        </div>
+                    </article>
+                </div>
+            </section>
         </div>
-    </footer>
 
-    <div class="whats-new-overlay" id="whatsNewOverlay" hidden>
-        <section class="whats-new-dialog"
-                id="whatsNewDialog"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="whatsNewTitle"
-                aria-describedby="whatsNewDescription"
-                data-release-version="@runeVersion"
-                tabindex="-1">
-            <button class="whats-new-close"
-                    id="whatsNewClose"
-                    type="button"
-                    aria-label="Güncelleme penceresini kapat"
-                    title="Kapat">
-                <span class="mb-2" aria-hidden="true">×</span>
-            </button>
-
-            <header class="whats-new-header">
-                <span class="whats-new-eyebrow">Rune · Güncelleme Notları</span>
-                <h2 id="whatsNewTitle">Yenilikler</h2>
-                <p id="whatsNewDescription">Eklenen, güncellenen ve düzeltilenleri burada görebilirsin.</p>
-            </header>
-
-            <div class="whats-new-history">
-                <article class="whats-new-release">
-                    <header class="whats-new-release-header">
-                        <h3>@runeVersion</h3>
-                        <time datetime="2026-10-29">29 Eki 2026</time>
-                    </header>
-
-                    <div class="whats-new-categories">
-                        <section class="whats-new-category" data-update-category="new">
-                            <h4><span class="whats-new-label">Yeni</span></h4>
-                            <ul>
-                                <li>Cadılar Bayramı etkinliği mağaza banner'ına eklendi.</li>
-                                <li>Öne çıkan oyunları sağdaki listeden seçebilirsin.</li>
-                                <li>Hediye et sistemi geldi.</li>
-                                <li>Hediye et banner geçiş ekranada geli.</li>
-                                <li>Oyunlar listeli bir şekilde görünebiliyor</li>
-                            </ul>
-                        </section>
-
-                        <section class="whats-new-category" data-update-category="updated">
-                            <h4><span class="whats-new-label">Güncellendi</span></h4>
-                            <ul>
-                                <li>Mağaza banner'ı ve oyun listesi mobil ekranlara göre düzenlendi.</li>
-                                <li>Mobil cihazlar simgeler daha iyi hale geldi.</li>
-                                <li>Arama kutusu daha iyi hale geldi.</li>
-                                <li>Simgiler daha iyi hale geldi (Mobile içinde geçerli).</li>
-                                <li>Cadılar bayramı posteri düzeltildi</li>
-                            </ul>
-                        </section>
-
-                        <section class="whats-new-category" data-update-category="fixed">
-                            <h4><span class="whats-new-label">Düzeltildi</span></h4>
-                            <ul>
-                                <li>Dar mobil ekranlardaki yatay sayfa kayması giderildi.</li>
-                                <li>Banner yanındaki oyun görselleri hizlandı</li>
-                            </ul>
-                        </section>
-
-                        <section class="whats-new-category" data-update-category="removed">
-                            <h4><span class="whats-new-label">Kaldırıldı</span></h4>
-                            <ul></ul>
-                        </section>
-                    </div>
-                </article>
-            </div>
-        </section>
-    </div>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 
 </html>

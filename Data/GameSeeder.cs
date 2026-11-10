@@ -11,6 +11,9 @@ public static class GameSeeder
 {
     public static async Task SeedAsync(ApplicationDbContext context)
     {
+        const string gtaViSlug = "grand-theft-auto-vi";
+        const string gtaViBannerPath = "/images/banners/GrandTheftAutoVI-banner.jpg";
+
         var games = new List<Game>
         {
             new()
@@ -19,7 +22,6 @@ public static class GameSeeder
                 Description = "Los Santos'ta geçen açık dünya aksiyon-macera oyunu.",
                 Price = 1.049m,
                 Slug = "grand-theft-auto-v",
-                Genre = "Aksiyon-Macera",
                 Developer = "Rockstar North",
                 Publisher = "Rockstar Games",
                 ReleaseDate = new DateTime(2013, 9, 17, 0, 0, 0, DateTimeKind.Utc),
@@ -28,7 +30,7 @@ public static class GameSeeder
                 IsPublished = true,
                 DisplayOrder = 1
             },
-            NewGame("Grand Theft Auto VI", "grand-theft-auto-vi", "Açık dünya aksiyon-macera", "/images/profiles/GrandTheftAutoVI-Profile.png", "/images/banners/GrandTheftAutoVI-Banner.avif", 2),
+            NewGame("Grand Theft Auto VI", "grand-theft-auto-vi", "Açık dünya aksiyon-macera", "/images/profiles/GrandTheftAutoVI-Profile.png", "/images/banners/GrandTheftAutoVI-banner.jpg", 2),
 
             NewGame("Red Dead Redemption 2", "red-dead-redemption-2", "Açık dünya aksiyon-macera", "/images/profiles/red-dead-redemption-profile.jpg", "/images/banners/Red-Dead-Redemption2-Banner.jpg", 3),
 
@@ -68,6 +70,16 @@ public static class GameSeeder
             
         };
 
+        var hasChanges = false;
+        var gtaVi = await context.Games
+            .FirstOrDefaultAsync(game => game.Slug == gtaViSlug);
+
+        if (gtaVi is not null && gtaVi.BannerImagePath != gtaViBannerPath)
+        {
+            gtaVi.BannerImagePath = gtaViBannerPath;
+            hasChanges = true;
+        }
+
         var existingSlugs = (await context.Games
                 .Where(game => game.Slug != null)
                 .Select(game => game.Slug!)
@@ -77,13 +89,16 @@ public static class GameSeeder
             .Where(game => game.Slug != null && existingSlugs.Add(game.Slug))
             .ToList();
 
-        if (missingGames.Count == 0)
+        if (missingGames.Count > 0)
         {
-            return;
+            await context.Games.AddRangeAsync(missingGames);
+            hasChanges = true;
         }
 
-        await context.Games.AddRangeAsync(missingGames);
-        await context.SaveChangesAsync();
+        if (hasChanges)
+        {
+            await context.SaveChangesAsync();
+        }
     }
 
     private static Game NewGame(string title, string slug, string genre, string coverPath, string bannerPath, int order) => new()
@@ -92,7 +107,6 @@ public static class GameSeeder
         Description = $"{genre} oyunu.",
         Price = 0m,
         Slug = slug,
-        Genre = genre,
         CoverImagePath = coverPath,
         BannerImagePath = bannerPath,
         IsPublished = true,

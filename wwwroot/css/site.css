@@ -838,27 +838,6 @@ body>.container {
   position: relative; z-index: 1;
 }
 
-.banner.banner-special-active .banner-content {
-  left: clamp(20px, 4vw, 48px);
-  right: auto;
-  top: auto;
-  bottom: 24px;
-  width: min(520px, calc(100% - 40px));
-  transform: none;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.banner.banner-special-active .banner-buttons {
-  width: 100%;
-  justify-content: flex-start;
-}
-
-.banner.banner-special-active .banner-progress {
-  align-self: flex-start;
-}
-
 .banner::after {
   content: "";
   position: absolute;
@@ -1832,16 +1811,6 @@ body>.container {
     text-align: left;
     transform: none;
     box-sizing: border-box;
-  }
-
-  .banner.banner-special-active .banner-content {
-    left: 16px;
-    top: auto;
-    bottom: 16px;
-    width: calc(100% - 32px);
-    transform: none;
-    align-items: flex-start;
-    text-align: left;
   }
 
   .banner-content h1 {

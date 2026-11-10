@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wlJFgQWi/Kw=",
+  "dgSpecHash": "UWUyTrgASFs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\Rune-Game-Platform\\RUNE.csproj",
+  "projectFilePath": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\rune\\RUNE.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lawli\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\lawli\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\10.0.12\\microsoft.aspnetcore.identity.entityframeworkcore.10.0.12.nupkg.sha512",

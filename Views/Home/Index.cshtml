@@ -3,8 +3,19 @@
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     ViewData["Title"] = "Rune'ye Hoş Geldiniz";
-    var featuredGames = Model.Take(6).ToList();
-    var catalogGames = Model.Take(10).ToList();
+    var allGames = Model.ToList();
+    var featuredGames = allGames
+        .OrderBy(game => game.Slug == "grand-theft-auto-v" ? 0 : 1)
+        .ThenBy(game => game.DisplayOrder)
+        .Take(6)
+        .ToList();
+    var catalogGames = allGames.Take(20).ToList();
+    var initialFeaturedGame = featuredGames.FirstOrDefault();
+    var initialBannerImage = initialFeaturedGame is null
+        ? string.Empty
+        : string.IsNullOrWhiteSpace(initialFeaturedGame.BannerImagePath)
+            ? initialFeaturedGame.CoverImagePath
+            : initialFeaturedGame.BannerImagePath;
 }
 
 
@@ -29,7 +40,7 @@
         <a href="#featuredBanner" class="active">Kategoriler</a>
         <a href="#all-games-heading">Göz At</a>
         <a class="whats-new-trigger" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
-            <span>Sürüm Notları</span>
+            <span>Sürüm Yamaları</span>
         </a>
     </nav>
 </div>
@@ -38,63 +49,66 @@
 @* oyun banner yer aldı alan ve sağ taraf *@
 <div class="store-layout">
     <main class="store-main">
-        <div class="featured-showcase">
-            <div class="featured-game">
-                <div class="banner banner-special-active" id="featuredBanner"
-                        style="--banner-image: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0) 100%), url('/images/Specials/holloween-sale.png');">
-                    <div class="banner-content">
-                        <h1 id="bannerTitle">Cadılar Bayramı İndirimi</h1>
-                        <p id="bannerDescription"></p>
-                        <div class="banner-buttons">
-                            <button type="button" id="detailsButton">
-                                İncele
-                            </button>
-                            <button type="button" id="wishlistButton" class="banner-wishlist-button" aria-label="İstek listesine ekle">
-                                <img src="https://img.icons8.com/?size=100&amp;id=qePzjQLJYgjF&amp;format=png&amp;color=ffffff" alt="" aria-hidden="true" />
-                            </button>
-                            <button type="button" id="wishlistButton" class="banner-wishlist-button">
-                                <img src="https://img.icons8.com/?size=100&id=1EMGz1hotW1E&format=png&color=ffffff" alt="">
-                            </button>
-                        </div>
-                        <div class="banner-progress">
-                            <div class="banner-progress-fill"></div>
+        @if (initialFeaturedGame is not null)
+        {
+            <div class="featured-showcase">
+                <div class="featured-game">
+                    <div class="banner" id="featuredBanner"
+                         style="--banner-image: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0) 100%), url('@initialBannerImage');">
+                        <div class="banner-content">
+                            <h1 id="bannerTitle">@initialFeaturedGame.Title</h1>
+                            <p id="bannerDescription">@initialFeaturedGame.Description</p>
+                            <div class="banner-buttons">
+                                <button type="button" id="detailsButton">İncele</button>
+                                <button type="button" id="wishlistButton" class="banner-wishlist-button" aria-label="İstek listesine ekle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
+                                    </svg>
+                                </button>
+                                <button type="button" id="wishlistButton" class="banner-wishlist-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                         fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
+                                        <path d="M12 8l0 13" />
+                                        <path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7" />
+                                        <path d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="banner-progress">
+                                <div class="banner-progress-fill"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            @if (featuredGames.Any())
-            {
                 <aside class="featured-game-list" aria-label="Öne çıkan oyunlar">
-                    <button type="button"
-                            class="featured-game-option featured-promo-option active"
-                            data-featured-title="Cadılar Bayramı İndirimi"
-                            data-featured-description="Rune Games Cadılar Bayramı İndirimi boyunca %80'e varan tüyler ürpertici indirimlerden yararlan. "
-                            data-featured-image="/images/Specials/holloween-banner.jpg"
-                            data-featured-kind="special"
-                            aria-pressed="true">
-                        <img src="/images/Specials/holloween-profile.jpg" alt="" loading="lazy" />
-                        <span class="featured-game-option-title">Cadılar Bayramı İndirimi</span>
-                    </button>
-                    @foreach (var game in featuredGames)
+                    @for (var index = 0; index < featuredGames.Count; index++)
                     {
+                        var game = featuredGames[index];
+                        var isActive = index == 0;
                         var thumbnailPath = string.IsNullOrWhiteSpace(game.CoverImagePath)
                             ? game.BannerImagePath
                             : game.CoverImagePath;
 
                         <button type="button"
-                                class="featured-game-option"
+                                class="featured-game-option @(isActive ? "active" : string.Empty)"
                                 data-featured-title="@game.Title"
                                 data-featured-description="@game.Description"
                                 data-featured-image="@(string.IsNullOrWhiteSpace(game.BannerImagePath) ? thumbnailPath : game.BannerImagePath)"
-                                aria-pressed="false">
+                                aria-pressed="@(isActive ? "true" : "false")">
                             <img src="@thumbnailPath" alt="" loading="lazy" />
                             <span class="featured-game-option-title">@game.Title</span>
                         </button>
                     }
                 </aside>
-            }
-        </div>
+            </div>
+        }
         <section class="catalog-section" aria-labelledby="all-games-heading">
             <div class="catalog-heading-row">
                 <h2 id="all-games-heading">Popüler Oyunlar</h2>
@@ -129,7 +143,7 @@
                     @foreach (var game in catalogGames)
                     {
                         <article class="catalog-game-card">
-                            <a href="">
+                            <a asp-controller="Games" asp-action="Details">
                                 <img class="catalog-game-banner"
                                 src="@game.BannerImagePath"
                                 alt="@game.Title oyun görseli"
@@ -197,7 +211,7 @@
                     @foreach (var game in catalogGames)
                     {
                         <article class="catalog-game-card">
-                            <a href="">
+                            <a asp-controller="Games" asp-action="Details">
                                 <img class="catalog-game-banner"
                                 src="@game.BannerImagePath"
                                 alt="@game.Title oyun görseli"

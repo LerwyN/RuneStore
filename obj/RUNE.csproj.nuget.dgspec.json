@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\Rune-Game-Platform\\RUNE.csproj": {}
+    "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\rune\\RUNE.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\Rune-Game-Platform\\RUNE.csproj": {
+    "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\rune\\RUNE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\Rune-Game-Platform\\RUNE.csproj",
+        "projectUniqueName": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\rune\\RUNE.csproj",
         "projectName": "RUNE",
-        "projectPath": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\Rune-Game-Platform\\RUNE.csproj",
+        "projectPath": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\rune\\RUNE.csproj",
         "packagesPath": "C:\\Users\\lawli\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\Rune-Game-Platform\\obj\\",
+        "outputPath": "C:\\Users\\lawli\\OneDrive\\Belgeler\\GitHub\\rune\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

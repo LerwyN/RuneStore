@@ -13,6 +13,7 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     await GameSeeder.SeedAsync(context);
+    await ReleaseNoteSeeder.SeedAsync(context);
 }
 
 

@@ -146,7 +146,6 @@ const featuredGames = featuredOptions.map((option) => ({
   title: option.dataset.featuredTitle || "",
   description: option.dataset.featuredDescription || "",
   image: option.dataset.featuredImage || "",
-  isSpecial: option.dataset.featuredKind === "special",
 }));
 
 const featuredBanner = document.querySelector("#featuredBanner");
@@ -159,8 +158,7 @@ bannerSlides.forEach((game) => {
   img.src = game.image;
 });
 
-const specialSlideIndex = featuredGames.findIndex((game) => game.isSpecial);
-let currentGameIndex = specialSlideIndex >= 0 ? specialSlideIndex : 0;
+let currentGameIndex = 0;
 const bannerTitle = document.querySelector("#bannerTitle");
 const bannerDescription = document.querySelector("#bannerDescription");
 const detailsButton = document.querySelector("#detailsButton");
@@ -183,7 +181,6 @@ function showFeaturedGame() {
     option.setAttribute("aria-pressed", String(isActive));
   });
 
-  featuredBanner.classList.toggle("banner-special-active", Boolean(game.isSpecial));
   if (detailsButton) {
     detailsButton.textContent = "İncele";
   }
