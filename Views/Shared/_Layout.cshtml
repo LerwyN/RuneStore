@@ -14,15 +14,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="icon" href="/images/icons/RuneGamesIconWhite.png">
+    <link rel="icon" href="/images/icons/RuneDarkIcon.png">
 </head>
 
 <body>
     <header class="site-header">
+        
         <div class="navbar-container">
             <div class="navbar-logo">
                 <a class="rune-icon" asp-controller="Home" asp-action="Index" aria-label="Rune mağazasına dön">
-                    <img src="~/images/icons/RuneStore.png" alt="rune">
+                    <img src="/images/icons/RuneStore.png" alt="rune">
                 </a>
             </div>
             <nav class="navbar-middle">
@@ -40,7 +41,7 @@
                 </a>
                 <a asp-controller="WorkShop" asp-action="Index"
                    class="@(currentController == "WorkShop" ? "active" : "")" title="Atölye Keşfet">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
                          class="icon icon-tabler icons-tabler-outline icon-tabler-tool">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -108,7 +109,7 @@
                 @if(User.Identity?.IsAuthenticated == true)
                 {
                     <div class="wishlist-icon">
-                    <div class="utility-item">
+                         <div class="utility-item">
                         <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog" aria-controls="wishlistOverlay" title="İstek Listesi">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
@@ -198,14 +199,9 @@
                             Ayarlar
                         </a>
                         <div class="profile-dropdown-divider"></div>
-                        <button type="button" class="profile-dropdown-item dark-theme-btn">
-                            <img src="https://img.icons8.com/?size=100&id=xlD3xOrQjTJO&format=png&color=000000"
-                                 alt="">Koyu Tema
-                        </button>
-                        <button type="button" class="profile-dropdown-item light-theme-btn">
-                            <img src="https://img.icons8.com/?size=100&id=648&format=png&color=000000" alt=""> Beyaz
-                            Tema
-                        </button>
+                             <a class="whats-new-trigger" href="#whatsNewOverlay" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
+                                <span>Sürüm Yamaları</span>
+                            </a>
                         <div class="profile-dropdown-divider"></div>
                         <button type="button" class="profile-dropdown-item logout-link">
                             <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000"
@@ -237,7 +233,7 @@
                     <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
                 </svg>
                 <div>
-                            <strong>@(User.Identity?.Name ?? "Rune User")</strong>
+                    <strong>@(User.Identity?.Name ?? "Rune User")</strong>
                     <p>Seviye 1</p>
                 </div>
             </div>
@@ -298,34 +294,9 @@
                 Destek
             </a>
             <div class="mobile-menu-divider"></div>
-            <a href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
-                    <path d="M12 8l0 13" />
-                    <path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7" />
-                    <path d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
-                </svg>
-                Hediye Et
-            </a>
-            <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog" aria-controls="wishlistOverlay">
-                <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff" alt="">
-                İstek Listem
-            </a>
-            <a href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M4 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                    <path d="M15 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                    <path d="M17 17h-11v-14h-2" />
-                    <path d="M6 5l14 1l-1 7h-13" />
-                </svg>
-                Sepetim
-            </a>
+
+            @* Sepet,İstek Listesi ve Hediye et burada olacak *@
+
             <a href="#">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
@@ -337,6 +308,7 @@
                 </svg>
                 Profilim
             </a>
+            
             <a href="#">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
@@ -348,6 +320,23 @@
                 </svg>
                 Ayarlar
             </a>
+
+            <a class="whats-new-trigger mobile-menu-whats-new" href="#whatsNewOverlay" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
+                <span class="mobile-menu-whats-new-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                            <path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z" />
+                            <path d="M14 3.75v4h4M9 12h6M9 15.5h6" />
+                        </svg>
+                </span>
+                <span class="mobile-menu-whats-new-copy">
+                    <strong>Sürüm Notları</strong>
+                    <small>Son güncellemeleri gör</small>
+                </span>
+                <svg class="mobile-menu-whats-new-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                    <path d="m9 18 6-6-6-6" />
+                </svg>
+            </a>
+            
             <hr class="border border-white">
             <a href="#" class="logout-link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -483,18 +472,7 @@
             </div>
         </footer>
 
-        <div class="wishlist-overlay" id="wishlistOverlay" hidden>
-            <section class="wishlist-dialog" role="dialog" aria-modal="true" aria-labelledby="wishlistTitle" tabindex="-1">
-                <button class="wishlist-close" id="wishlistClose" type="button" aria-label="İstek listesini kapat">×</button>
-                <header>
-                    <span class="whats-new-eyebrow">Rune Mağazası</span>
-                    <h2 id="wishlistTitle">İstek Listem</h2>
-                    <p>Bu tarayıcıda kaydettiğin oyunlar.</p>
-                </header>
-                <p id="wishlistEmpty" class="wishlist-empty">İstek listen henüz boş.</p>
-                <ul id="wishlistItems" class="wishlist-items"></ul>
-            </section>
-        </div>
+
 
         @if (releaseNotes.Count > 0)
         {

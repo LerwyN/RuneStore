@@ -1,4 +1,4 @@
-﻿@using RUNE.Data
+@using RUNE.Data
 @model IEnumerable<RUNE.Models.Game>
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
@@ -39,8 +39,7 @@
     <nav class="store-subnav" aria-label="Mağaza menüsü">
         <a href="#featuredBanner" class="active">Kategoriler</a>
         <a href="#all-games-heading">Göz At</a>
-            <a class="whats-new-trigger" href="#whatsNewOverlay" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
-            <span>Sürüm Yamaları</span>
+            
         </a>
     </nav>
 </div>
@@ -61,7 +60,7 @@
                             <div class="banner-buttons">
                                 <a id="detailsButton"
                                    href="@Url.Action("Details", "Games", new { id = initialFeaturedGame.Id })">İncele</a>
-                                <button type="button" id="bannerWishlistButton" class="banner-wishlist-button" data-wishlist-toggle aria-pressed="false" aria-label="İstek listesine ekle">
+                                <button type="button" id="bannerWishlistButton" class="banner-wishlist-button"aria-label="İstek listesine ekle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
                                          stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
@@ -69,7 +68,7 @@
                                         <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
                                     </svg>
                                 </button>
-                                <button type="button" class="banner-wishlist-button" disabled title="Yakında" aria-label="Hediye et (yakında)">
+                                <button type="button" class="banner-wishlist-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
                                          stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
@@ -161,10 +160,13 @@
                                     aria-label="İstek listesine ekle: @game.Title"
                                     aria-pressed="false"
                                     title="İstek listesine ekle">
-                                <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff"
-                                    alt=""
-                                    aria-hidden="true"
-                                    loading="lazy" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
+                            </svg>
                             </button>
                             <div class="catalog-game-info">
                                 <h3>@game.Title</h3>
