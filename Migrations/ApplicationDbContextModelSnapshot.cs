@@ -331,6 +331,9 @@ namespace RUNE.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
                     b.ToTable("Games");
                 });
 

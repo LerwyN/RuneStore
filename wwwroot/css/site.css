@@ -944,7 +944,11 @@ body>.container {
 }
 
 
-.banner-buttons button {
+.banner-buttons button,
+.banner-buttons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 40px;
   padding: 10px 18px;
   border-radius: 8px;
@@ -955,15 +959,20 @@ body>.container {
   background-color: #fff;
   color: #222;
   border: 1px solid #fff;
+  text-decoration: none;
 }
 
-.banner-buttons button:hover {
+.banner-buttons button:hover,
+.banner-buttons a:hover {
   background-color: #d6d6d6;
   color: #000;
   border-color: #c4c4c4;
 }
 
 .banner-buttons #detailsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 50px;
   padding: 12px 24px;
   border-radius: 10px;

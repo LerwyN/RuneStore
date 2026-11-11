@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RUNE.Models;
+using RUNE.Models.Entities;
 
 namespace RUNE.Data;
 
@@ -28,7 +29,8 @@ public static class GameSeeder
                 CoverImagePath = "/images/profiles/grand-theft-autoV-profile.jpg",
                 BannerImagePath = "/images/banners/grand-theft-autoV-banner.jpg",
                 IsPublished = true,
-                DisplayOrder = 1
+                DisplayOrder = 1,
+                Genre = [new Genre { Name = "Açık dünya aksiyon-macera" }]
             },
             NewGame("Grand Theft Auto VI", "grand-theft-auto-vi", "Açık dünya aksiyon-macera", "/images/profiles/GrandTheftAutoVI-Profile.png", "/images/banners/GrandTheftAutoVI-banner.jpg", 2),
 
@@ -106,15 +108,19 @@ public static class GameSeeder
 
         var hasChanges = false;
         var existingGames = await context.Games
+            .Include(game => game.Genre)
             .Where(game => game.Slug != null)
             .ToListAsync();
-        var existingGamesBySlug = existingGames
+        var gamesBySlug = existingGames
             .GroupBy(game => game.Slug!, StringComparer.OrdinalIgnoreCase)
-            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+            .ToDictionary(group => group.Key, group => group.OrderBy(game => game.Id).First(), StringComparer.OrdinalIgnoreCase);
+        var genresByName = (await context.Genres.ToListAsync())
+            .GroupBy(genre => genre.Name, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(group => group.Key, group => group.OrderBy(genre => genre.Id).First(), StringComparer.OrdinalIgnoreCase);
 
         foreach (var seededGame in games)
         {
-            if (seededGame.Slug is null || !existingGamesBySlug.TryGetValue(seededGame.Slug, out var existingGame))
+            if (seededGame.Slug is null || !gamesBySlug.TryGetValue(seededGame.Slug, out var existingGame))
             {
                 continue;
             }
@@ -136,23 +142,62 @@ public static class GameSeeder
                 existingGame.ReleaseDate = seededGame.ReleaseDate;
                 hasChanges = true;
             }
-
-            if (seededGame.Slug == gtaViSlug && existingGame.BannerImagePath != gtaViBannerPath)
-            {
-                existingGame.BannerImagePath = gtaViBannerPath;
-                hasChanges = true;
-            }
         }
 
-        var existingSlugs = existingGamesBySlug.Keys.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var missingGames = games
-            .Where(game => game.Slug != null && existingSlugs.Add(game.Slug))
-            .ToList();
-
-        if (missingGames.Count > 0)
+        foreach (var seededGame in games)
         {
-            await context.Games.AddRangeAsync(missingGames);
-            hasChanges = true;
+            if (seededGame.Slug is null)
+            {
+                continue;
+            }
+
+            var isNewGame = !gamesBySlug.TryGetValue(seededGame.Slug, out var game);
+            game ??= seededGame;
+
+            if (game.Slug == gtaViSlug && game.BannerImagePath != gtaViBannerPath)
+            {
+                game.BannerImagePath = gtaViBannerPath;
+                hasChanges = true;
+            }
+
+            var expectedGenres = new List<Genre>();
+            foreach (var seededGenre in seededGame.Genre)
+            {
+                if (!genresByName.TryGetValue(seededGenre.Name, out var genre))
+                {
+                    genre = new Genre { Name = seededGenre.Name };
+                    context.Genres.Add(genre);
+                    genresByName.Add(genre.Name, genre);
+                    hasChanges = true;
+                }
+
+                expectedGenres.Add(genre);
+            }
+
+            var currentGenreNames = game.Genre
+                .Select(genre => genre.Name)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var expectedGenreNames = expectedGenres
+                .Select(genre => genre.Name)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            if (isNewGame || !currentGenreNames.SetEquals(expectedGenreNames))
+            {
+                game.Genre.Clear();
+                foreach (var genre in expectedGenres)
+                {
+                    game.Genre.Add(genre);
+                }
+
+                hasChanges = true;
+            }
+
+            if (isNewGame)
+            {
+                context.Games.Add(game);
+                gamesBySlug.Add(seededGame.Slug, game);
+                hasChanges = true;
+            }
         }
 
         if (hasChanges)
@@ -170,7 +215,8 @@ public static class GameSeeder
         CoverImagePath = coverPath,
         BannerImagePath = bannerPath,
         IsPublished = true,
-        DisplayOrder = order
+        DisplayOrder = order,
+        Genre = [new Genre { Name = genre }]
     };
 
     private static DateTime UtcDate(int year, int month, int day) =>

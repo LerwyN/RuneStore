@@ -1,6 +1,7 @@
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-    var runeVersion = "v0.11.11 Beta";
+    var releaseNotes = ViewData["ReleaseNotes"] as List<RUNE.Models.ReleaseNotes.ReleaseNote> ?? new List<RUNE.Models.ReleaseNotes.ReleaseNote>();
+    var runeVersion = releaseNotes.FirstOrDefault()?.Version ?? "Rune";
 }
 <!DOCTYPE html>
 <html lang="tr">
@@ -20,8 +21,8 @@
     <header class="site-header">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <a class="rune-icon">
-                    <img src="/images/icons/RuneStore.png" alt="rune">
+                <a class="rune-icon" asp-controller="Home" asp-action="Index" aria-label="Rune mağazasına dön">
+                    <img src="~/images/icons/RuneStore.png" alt="rune">
                 </a>
             </div>
             <nav class="navbar-middle">
@@ -108,7 +109,7 @@
                 {
                     <div class="wishlist-icon">
                     <div class="utility-item">
-                        <a href="#" title="İstek Listesi">
+                        <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog" aria-controls="wishlistOverlay" title="İstek Listesi">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
                                  stroke-linejoin="round"
@@ -161,7 +162,7 @@
                         </svg>
                     </a>
                     <div class="profile-info">
-                        <h6 class="profile-name">Rune User</h6>
+                        <h6 class="profile-name">@(User.Identity?.Name ?? "Rune User")</h6>
                         <p class="profile-level">Seviye 1</p>
                     </div>
                     <button class="profile-menu-toggle" id="profileMenuToggle" type="button"
@@ -170,8 +171,7 @@
                     </button>
                     <div class="profile-dropdown" id="profileDropdown">
                         <div class="profile-dropdown-header">
-                            <strong>Rune User</strong>
-                            <span> Seviye 1 · Kullanıcı </span>
+                            <strong>@(User.Identity?.Name ?? "Rune User")</strong>
                         </div>
                         <a href="#" class="profile-dropdown-item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -197,20 +197,19 @@
                             </svg>
                             Ayarlar
                         </a>
-                        
-                        <div class="profile-dropdown-divider" style="background-color: darkgray;"></div>
+                        <div class="profile-dropdown-divider"></div>
+                        <button type="button" class="profile-dropdown-item dark-theme-btn">
+                            <img src="https://img.icons8.com/?size=100&id=xlD3xOrQjTJO&format=png&color=000000"
+                                 alt="">Koyu Tema
+                        </button>
+                        <button type="button" class="profile-dropdown-item light-theme-btn">
+                            <img src="https://img.icons8.com/?size=100&id=648&format=png&color=000000" alt=""> Beyaz
+                            Tema
+                        </button>
+                        <div class="profile-dropdown-divider"></div>
                         <button type="button" class="profile-dropdown-item logout-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-                                <path d="M9 12h12l-3 -3" />
-                                <path d="M18 15l3 -3" />
-                            </svg>
-                            Çıkış Yap
+                            <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000"
+                                 alt="">Çıkış Yap
                         </button>
                     </div>
                 </div>    
@@ -238,7 +237,7 @@
                     <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
                 </svg>
                 <div>
-                    <strong>Rune User</strong>
+                            <strong>@(User.Identity?.Name ?? "Rune User")</strong>
                     <p>Seviye 1</p>
                 </div>
             </div>
@@ -311,13 +310,8 @@
                 </svg>
                 Hediye Et
             </a>
-            <a href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
-                </svg>
+            <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog" aria-controls="wishlistOverlay">
+                <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff" alt="">
                 İstek Listem
             </a>
             <a href="#">
@@ -438,9 +432,9 @@
                 </p>
             </div>
             <div class="rune-footer-column">
-                <h3>Göz At</h3>
-                <a href="#">Popüler Oyunlar</a>
-                <a href="#">Öne Çıkanlar</a>
+                <h3>Keşfet</h3>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="all-games-heading">Popüler Oyunlar</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="featured-games-heading">Öne Çıkanlar</a>
                 <a href="#">Çok Satanlar</a>
                 <a href="#">Yakında Gelecekler</a>
                 <a href="#">İndirimler & Fırsatlar</a>
@@ -456,15 +450,15 @@
             </div>
             <div class="rune-footer-column">
                 <h3>Rune hakkında</h3>
-                <a href="#">Destek Merkezi</a>
-                <a href="#">Sunucu Durumu</a>
+                <a asp-controller="Support" asp-action="Index">Destek Merkezi</a>
+                <a href="#">Sunucu Durumu (Status)</a>
                 <a href="#">Güvenlik & Hile Bildirimi</a>
                 <a href="#">Hakkımızda</a>
                 <a href="#">Kariyer</a>
             </div>
             <div class="rune-footer-column">
                 <h3>Yasal</h3>
-                <a href="#">Gizlilik politikası</a>
+                <a asp-controller="Home" asp-action="Privacy">Gizlilik politikası</a>
                 <a href="#">Kullanım koşulları</a>
                 <a href="#">Çerez politikası</a>
                 <a href="#">KVKK</a>
@@ -476,7 +470,7 @@
 
                 <div class="rune-footer-bottom-right">
                     <span>Vault Games Tarafından Geliştirilmiştir.</span>
-                    <a href="#">Gizlilik</a>
+                    <a asp-controller="Home" asp-action="Privacy">Gizlilik</a>
                     <a href="#">Koşullar</a>
                     <span>TR · Türkiye</span>
 
@@ -489,6 +483,21 @@
             </div>
         </footer>
 
+        <div class="wishlist-overlay" id="wishlistOverlay" hidden>
+            <section class="wishlist-dialog" role="dialog" aria-modal="true" aria-labelledby="wishlistTitle" tabindex="-1">
+                <button class="wishlist-close" id="wishlistClose" type="button" aria-label="İstek listesini kapat">×</button>
+                <header>
+                    <span class="whats-new-eyebrow">Rune Mağazası</span>
+                    <h2 id="wishlistTitle">İstek Listem</h2>
+                    <p>Bu tarayıcıda kaydettiğin oyunlar.</p>
+                </header>
+                <p id="wishlistEmpty" class="wishlist-empty">İstek listen henüz boş.</p>
+                <ul id="wishlistItems" class="wishlist-items"></ul>
+            </section>
+        </div>
+
+        @if (releaseNotes.Count > 0)
+        {
         <div class="whats-new-overlay" id="whatsNewOverlay" hidden>
             <section class="whats-new-dialog" id="whatsNewDialog" role="dialog" aria-modal="true"
                      aria-labelledby="whatsNewTitle" aria-describedby="whatsNewDescription" data-release-version="@runeVersion"
@@ -505,44 +514,55 @@
                 </header>
 
                 <div class="whats-new-history">
-                    <article class="whats-new-release">
-                        <header class="whats-new-release-header">
-                            <h3>@runeVersion</h3>
-                            <time datetime="2026-11-11">11 Kas 2026</time>
-                        </header>
+                    @foreach (var versionGroup in releaseNotes
+                        .GroupBy(note => note.Version)
+                        .OrderByDescending(group => group.Max(note => note.ReleaseDate)))
+                    {
+                        var releaseDate = versionGroup.Max(note => note.ReleaseDate);
+                        var releaseDateIso = releaseDate.ToString("yyyy-MM-dd");
+                        var releaseDateDisplay = releaseDate.ToString("d MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"));
+                        <article class="whats-new-release">
+                            <header class="whats-new-release-header">
+                                <h3>@versionGroup.Key</h3>
+                                <time datetime="@releaseDateIso">@releaseDateDisplay</time>
+                            </header>
 
-                        <div class="whats-new-categories">
-                            <section class="whats-new-category" data-update-category="new">
-                                <h4><span class="whats-new-label">Yeni</span></h4>
-                                <ul>
-                                    <li>Oyunun detay sayfası eklendi.</li>
-                                    <li>Hesap açma özelliği eklendi.</li>
-                                    <li>Rune Games artık yeni bir görünüme sahip!</li>
-                                    <li>Diller eklendi.</li>
-                                </ul>
-                            </section>
+                            <div class="whats-new-categories">
+                                @foreach (var category in Enum.GetValues<RUNE.Models.ReleaseNotes.ReleaseNoteCategory>())
+                                {
+                                    var categoryNotes = versionGroup
+                                        .Where(note => note.Category == category)
+                                        .OrderBy(note => note.DisplayOrder)
+                                        .ToList();
+                                    if (categoryNotes.Count == 0)
+                                    {
+                                        continue;
+                                    }
 
-                            <section class="whats-new-category" data-update-category="updated">
-                                <h4><span class="whats-new-label">Düzeltildi</span></h4>
-                                <ul>
-                                    <li>İkonlar yenilendi ve hatalar vb. giderildi.</li>
-                                    <li>Grand Theft Auto VI görsel afişi yenilendi.</li>
-                                    <li>İkconlar mobile ekranlarda da yenilendi.</li>
-                                </ul>
-                            </section>
-
-                            <section class="whats-new-category" data-update-category="removed">
-                                <h4><span class="whats-new-label">Kaldırıldı</span></h4>
-                                <ul>
-                                    <li>Cadılar bayramı afişi kaldırıldı.</li>
-                                    <li>Bildirimler sekmesi kaldırıldı.</li>
-                                </ul>
-                            </section>
-                        </div>
-                    </article>
+                                    var categoryLabel = category switch
+                                    {
+                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.New => "Yeni",
+                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Updated => "Güncellendi",
+                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Removed => "Kaldırıldı",
+                                        _ => category.ToString()
+                                    };
+                                    <section class="whats-new-category" data-update-category="@category.ToString().ToLowerInvariant()">
+                                        <h4><span class="whats-new-label">@categoryLabel</span></h4>
+                                        <ul>
+                                            @foreach (var note in categoryNotes)
+                                            {
+                                                <li>@note.Description</li>
+                                            }
+                                        </ul>
+                                    </section>
+                                }
+                            </div>
+                        </article>
+                    }
                 </div>
             </section>
         </div>
+        }
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

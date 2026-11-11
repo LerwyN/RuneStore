@@ -17,5 +17,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ReleaseNote> Notes => Set<ReleaseNote>();
     public DbSet<Genre> Genres => Set<Genre>();
     public DbSet<Tag> Tags => Set<Tag>();
-    
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Game>()
+            .HasIndex(game => game.Slug)
+            .IsUnique();
+    }
 }
