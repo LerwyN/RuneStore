@@ -7,7 +7,7 @@ using RUNE.Models.ReleaseNotes;
 
 namespace RUNE.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) //Veritabanı bağlatı zinciri
     {

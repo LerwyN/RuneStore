@@ -1,14 +1,220 @@
+@model Game
 @{
-    ViewData["Title"] = "Oyun Deyaları";
+    ViewData["Title"] = $"{Model.Title} | Rune";
+    var releaseDate = Model.ReleaseDate?.ToString("d MMMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"));
+    var galleryImages = new[]
+        {
+            new { Path = Model.BannerImagePath, Alt = $"{Model.Title} oyun görseli", Label = "Oyun görseli" },
+            new { Path = Model.CoverImagePath, Alt = $"{Model.Title} kapak görseli", Label = "Kapak görseli" }
+        }
+        .Where(image => !string.IsNullOrWhiteSpace(image.Path))
+        .GroupBy(image => image.Path, StringComparer.OrdinalIgnoreCase)
+        .Select(group => group.First())
+        .ToList();
+    var initialImage = galleryImages.FirstOrDefault();
 }
 
+<article class="game-store-page my-1">
+    <nav class="game-breadcrumb" aria-label="Gezinti yolu">
+        <a asp-controller="Home" asp-action="Index">Mağaza</a>
+        <span aria-hidden="true">></span>
+        <p class="mt-3">Oyunun Detay Sayfası</p>
+        <span aria-hidden="true">></span>
+        <span aria-current="page">@Model.Title</span>
+        
+    </nav>
 
-<div class="alert d-flex align-items-center gap-3 bg-dark text-white border border-white rounded-3 px-3 py-3 mt-3" role="alert">
-    <i class="bi bi-exclamation-triangle fs-4"></i>
-    <div>
-        <div class="fw-semibold mb-1">Bilgilendirme</div>
-        <p class="text-secondary">
-            Yakında gelecektir
-        </p>
-    </div>
-</div>
+    <header class="game-page-heading">
+        <p class="game-details-eyebrow">Rune Oyun Mağazası</p>
+        <h1>@Model.Title</h1>
+    </header>
+
+    <nav class="game-detail-tabs" aria-label="Oyun sayfası bölümleri">
+        <a class="active" href="#game-overview">Genel Bakış</a>
+        <a href="#game-facts">Oyun Bilgileri</a>
+        <a href="#game-community">Oyuncu Topluluğu</a>
+    </nav>
+
+    <div class="game-product-layout">
+        <div class="game-product-main">
+            <section class="game-media-gallery" aria-label="@Model.Title görselleri">
+                <div class="game-gallery-stage">
+                    @if (initialImage is not null)
+                    {
+                        <img class="game-gallery-main-image" src="@initialImage.Path" alt="@initialImage.Alt"
+                             data-gallery-main-image />
+                    }
+                    else
+                    {
+                        <div class="game-gallery-placeholder" role="img" aria-label="Bu oyun için henüz görsel eklenmedi">
+                            <span>@Model.Title</span>
+                        </div>
+                    }
+                </div>
+
+                @if (galleryImages.Count > 1)
+                {
+                    <div class="game-gallery-thumbnails" role="group" aria-label="Oyun görsellerini seç">
+                        @for (var index = 0; index < galleryImages.Count; index++)
+                        {
+                            var image = galleryImages[index];
+                            var isActive = index == 0;
+                            <button class="game-gallery-thumbnail @(isActive ? "active" : string.Empty)" type="button"
+                                    data-gallery-select data-gallery-image="@image.Path" data-gallery-alt="@image.Alt"
+                                    aria-label="@image.Label" aria-pressed="@(isActive ? "true" : "false")">
+                                <img src="@image.Path" alt="" loading="lazy" />
+                            </button>
+                        }
+                    </div>
+                }
+            </section>
+
+            <section class="game-overview-section" id="game-overview" aria-labelledby="game-overview-heading">
+                <div class="game-section-heading">
+                    <p class="game-details-eyebrow">Genel Bakış</p>
+                    <h2 id="game-overview-heading">@Model.Title</h2>
+                </div>
+                <p class="game-overview-description">@Model.Description</p>
+
+                @if (Model.Genre.Count > 0 || Model.Tag.Count > 0)
+                {
+                    <div class="game-taxonomy-grid">
+                        @if (Model.Genre.Count > 0)
+                        {
+                            <section class="game-taxonomy-group" aria-labelledby="game-genres-heading">
+                                <h3 id="game-genres-heading">Türler</h3>
+                                <ul class="game-chip-list">
+                                    @foreach (var genre in Model.Genre.OrderBy(item => item.Name))
+                                    {
+                                        <li>@genre.Name</li>
+                                    }
+                                </ul>
+                            </section>
+                        }
+
+                        @if (Model.Tag.Count > 0)
+                        {
+                            <section class="game-taxonomy-group" aria-labelledby="game-tags-heading">
+                                <h3 id="game-tags-heading">Özellikler</h3>
+                                <ul class="game-chip-list">
+                                    @foreach (var tag in Model.Tag.OrderBy(item => item.Name))
+                                    {
+                                        <li>@tag.Name</li>
+                                    }
+                                </ul>
+                            </section>
+                        }
+                    </div>
+                }
+            </section>
+
+        </div>
+
+        <aside class="game-purchase-panel" aria-label="@Model.Title satın alma ve oyun bilgileri">
+            <div class="game-purchase-price">
+                @if (Model.Price > 0)
+                {
+                    <strong>₺@Model.Price.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</strong>
+                }
+                else
+                {
+                    <strong>Fiyat yakında</strong>
+                }
+            </div>
+
+            <div class="game-purchase-primary-actions">
+                <button class="game-buy-button" type="button" disabled
+                    title="Satın alma özelliği henüz kullanıma açık değil">
+                    Hemen Al
+                </button>
+                <button class="game-cart-button" type="button" disabled aria-label="Sepete ekle"
+                        title="Sepet özelliği yakında">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart-plus">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path d="M12.5 17h-6.5v-14h-2" />
+                        <path d="M6 5l14 1l-.86 6.017m-2.64 .983h-10.5" />
+                        <path d="M16 19h6" />
+                        <path d="M19 16v6" />
+                    </svg>
+                </button>
+            </div>
+            <button class="game-gift-button" type="button" disabled title="Hediye etme özelliği yakında">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                     class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
+                    <path d="M12 8l0 13" />
+                    <path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7" />
+                    <path d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
+                </svg>
+                <span>Hediye et</span>
+                <span class="search-new-badge" aria-label="Yeni">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M12 3.5 13.8 9l5.7 1.8-5.7 1.8-1.8 5.7-1.8-5.7-5.7-1.8L10.2 9 12 3.5Z" />
+                        <path d="m19 15.5.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z" />
+                    </svg>
+                    <span>Yeni</span>
+                </span>
+            </button>
+            <button class="game-wishlist-button" type="button" data-wishlist-toggle data-game-id="@Model.Id"
+                    data-game-title="@Model.Title" data-game-image="@Model.CoverImagePath"
+                    data-game-url="@Url.Action("Details", "Games", new { id = Model.Id })"
+                    aria-label="İstek listesine ekle: @Model.Title" aria-pressed="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                     class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
+                </svg>
+                <span data-wishlist-label>İstek Listesi</span>
+            </button>
+
+            <dl class="game-purchase-facts" id="game-facts">
+                <div>
+                    <dt>Rune Ödülleri</dt>
+                    <dd>
+                        <span>Yakında</span>
+                        <svg class="game-fact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="m12 6 1.7 4.1L18 12l-4.3 1.9L12 18l-1.7-4.1L6 12l4.3-1.9L12 6Z" />
+                        </svg>
+                    </dd>
+                </div>
+                <div>
+                    <dt>İade Türü</dt>
+                    <dd>
+                        <span>Politika hazırlanıyor</span>
+                        <svg class="game-fact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M9.6 9a2.5 2.5 0 1 1 4.4 1.6c-1.1 1.2-2 1.5-2 3.4M12 17.5v.1" />
+                        </svg>
+                    </dd>
+                </div>
+                @if (Model.Genre.Count > 0)
+                {
+                    <div>
+                        <dt>Tür</dt>
+                        <dd><span>@string.Join(", ", Model.Genre.OrderBy(item => item.Name).Select(item =>
+                            item.Name))</span></dd>
+                    </div>
+                }
+                <div>
+                    <dt>Geliştirici</dt>
+                    <dd><span>@(string.IsNullOrWhiteSpace(Model.Developer) ? "Henüz eklenmedi" : Model.Developer)</span></dd>
+                </div>
+                <div>
+                    <dt>Yayıncı</dt>
+                    <dd><span>@(string.IsNullOrWhiteSpace(Model.Publisher) ? "Henüz eklenmedi" : Model.Publisher)</span></dd>
+                </div>
+                <div>
+                    <dt>Çıkış Tarihi</dt>
+                    <dd><span>@(releaseDate ?? "Henüz eklenmedi")</span></dd>
+                </div>
+            </dl>
+            </aside>
+        </div>
+    </article>

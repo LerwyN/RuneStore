@@ -998,5 +998,5 @@ C:\Users\lawli\OneDrive\Belgeler\GitHub\rune\obj\Debug\net10.0\refint\RUNE.dll
 C:\Users\lawli\OneDrive\Belgeler\GitHub\rune\obj\Debug\net10.0\RUNE.pdb
 C:\Users\lawli\OneDrive\Belgeler\GitHub\rune\obj\Debug\net10.0\RUNE.genruntimeconfig.cache
 C:\Users\lawli\OneDrive\Belgeler\GitHub\rune\obj\Debug\net10.0\ref\RUNE.dll
-C:\Users\lawli\OneDrive\Belgeler\GitHub\rune\obj\Debug\net10.0\compressed\jvdtznjhwd-{0}-ti70tefrp0-ti70tefrp0.gz
 C:\Users\lawli\OneDrive\Belgeler\GitHub\rune\obj\Debug\net10.0\compressed\7zmwwo6tkt-{0}-28zdfg0yx1-28zdfg0yx1.gz
+C:\Users\lawli\OneDrive\Belgeler\GitHub\rune\obj\Debug\net10.0\compressed\jvdtznjhwd-{0}-2dbnpigbaz-2dbnpigbaz.gz

@@ -70,21 +70,81 @@ public static class GameSeeder
             
         };
 
-        var hasChanges = false;
-        var gtaVi = await context.Games
-            .FirstOrDefaultAsync(game => game.Slug == gtaViSlug);
-
-        if (gtaVi is not null && gtaVi.BannerImagePath != gtaViBannerPath)
+        var gameDetails = new Dictionary<string, (string Developer, string Publisher, DateTime? ReleaseDate)>(StringComparer.OrdinalIgnoreCase)
         {
-            gtaVi.BannerImagePath = gtaViBannerPath;
-            hasChanges = true;
+            ["grand-theft-auto-v"] = ("Rockstar North", "Rockstar Games", UtcDate(2013, 9, 17)),
+            ["grand-theft-auto-vi"] = ("Rockstar North", "Rockstar Games", UtcDate(2026, 11, 19)),
+            ["red-dead-redemption-2"] = ("Rockstar Studios", "Rockstar Games", UtcDate(2018, 10, 26)),
+            ["cyberpunk-2077"] = ("CD Projekt Red", "CD Projekt", UtcDate(2020, 12, 10)),
+            ["ghost-of-tsushima"] = ("Sucker Punch Productions", "Sony Interactive Entertainment", UtcDate(2020, 7, 17)),
+            ["hogwarts-legacy"] = ("Avalanche Software", "Warner Bros. Games", UtcDate(2023, 2, 10)),
+            ["baldurs-gate-3"] = ("Larian Studios", "Larian Studios", UtcDate(2023, 8, 3)),
+            ["counter-strike-2"] = ("Valve", "Valve", UtcDate(2023, 9, 27)),
+            ["elden-ring"] = ("FromSoftware", "Bandai Namco Entertainment", UtcDate(2022, 2, 25)),
+            ["minecraft"] = ("Mojang Studios", "Xbox Game Studios", UtcDate(2011, 11, 18)),
+            ["the-last-of-us-part-i"] = ("Naughty Dog", "Sony Interactive Entertainment", UtcDate(2022, 9, 2)),
+            ["the-witcher-3-wild-hunt"] = ("CD Projekt Red", "CD Projekt", UtcDate(2015, 5, 19)),
+            ["resident-evil-4"] = ("Capcom", "Capcom", UtcDate(2023, 3, 24)),
+            ["marvels-spider-man-2"] = ("Insomniac Games", "Sony Interactive Entertainment", UtcDate(2023, 10, 20)),
+            ["god-of-war-ragnarok"] = ("Santa Monica Studio", "Sony Interactive Entertainment", UtcDate(2022, 11, 9)),
+            ["alan-wake-2"] = ("Remedy Entertainment", "Epic Games Publishing", UtcDate(2023, 10, 27)),
+            ["death-stranding-2"] = ("Kojima Productions", "Sony Interactive Entertainment", UtcDate(2025, 6, 26)),
+            ["doom-the-dark-ages"] = ("id Software", "Bethesda Softworks", UtcDate(2025, 5, 15)),
+            ["ea-sports-fc-27"] = ("EA Vancouver / EA Romania", "Electronic Arts", UtcDate(2026, 9, 25)),
+            ["resident-evil-requiem"] = ("Capcom", "Capcom", UtcDate(2026, 2, 27))
+        };
+
+        foreach (var game in games)
+        {
+            if (game.Slug is not null && gameDetails.TryGetValue(game.Slug, out var details))
+            {
+                game.Developer = details.Developer;
+                game.Publisher = details.Publisher;
+                game.ReleaseDate = details.ReleaseDate;
+            }
         }
 
-        var existingSlugs = (await context.Games
-                .Where(game => game.Slug != null)
-                .Select(game => game.Slug!)
-                .ToListAsync())
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var hasChanges = false;
+        var existingGames = await context.Games
+            .Where(game => game.Slug != null)
+            .ToListAsync();
+        var existingGamesBySlug = existingGames
+            .GroupBy(game => game.Slug!, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+
+        foreach (var seededGame in games)
+        {
+            if (seededGame.Slug is null || !existingGamesBySlug.TryGetValue(seededGame.Slug, out var existingGame))
+            {
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(existingGame.Developer) && !string.IsNullOrWhiteSpace(seededGame.Developer))
+            {
+                existingGame.Developer = seededGame.Developer;
+                hasChanges = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(existingGame.Publisher) && !string.IsNullOrWhiteSpace(seededGame.Publisher))
+            {
+                existingGame.Publisher = seededGame.Publisher;
+                hasChanges = true;
+            }
+
+            if (existingGame.ReleaseDate is null && seededGame.ReleaseDate is not null)
+            {
+                existingGame.ReleaseDate = seededGame.ReleaseDate;
+                hasChanges = true;
+            }
+
+            if (seededGame.Slug == gtaViSlug && existingGame.BannerImagePath != gtaViBannerPath)
+            {
+                existingGame.BannerImagePath = gtaViBannerPath;
+                hasChanges = true;
+            }
+        }
+
+        var existingSlugs = existingGamesBySlug.Keys.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var missingGames = games
             .Where(game => game.Slug != null && existingSlugs.Add(game.Slug))
             .ToList();
@@ -112,4 +172,7 @@ public static class GameSeeder
         IsPublished = true,
         DisplayOrder = order
     };
+
+    private static DateTime UtcDate(int year, int month, int day) =>
+        new(year, month, day, 0, 0, 0, DateTimeKind.Utc);
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RUNE.Data;
 
 namespace RUNE.Controllers
@@ -19,7 +20,18 @@ namespace RUNE.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var game = await _applicationDbContext.Games
+                .Where(game => game.IsPublished)
+                .Include(game => game.Genre)
+                .Include(game => game.Tag)
+                .FirstOrDefaultAsync(game => game.Id == id);
+
+            if (game is null)
+            {
+                return NotFound();
+            }
+
+            return View(game);
         }
 
     }
