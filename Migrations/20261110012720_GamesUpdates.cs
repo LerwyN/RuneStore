@@ -11,10 +11,6 @@ namespace RUNE.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Genre",
-                table: "Games");
-
             migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
@@ -98,11 +94,45 @@ namespace RUNE.Migrations
                 name: "IX_GameTag_TagId",
                 table: "GameTag",
                 column: "TagId");
+
+            migrationBuilder.Sql("""
+                INSERT INTO "Genres" ("Name")
+                SELECT DISTINCT BTRIM("Genre")
+                FROM "Games"
+                WHERE NULLIF(BTRIM("Genre"), '') IS NOT NULL;
+
+                INSERT INTO "GameGenre" ("GamesId", "GenreId")
+                SELECT game."Id", genre."Id"
+                FROM "Games" AS game
+                INNER JOIN "Genres" AS genre ON genre."Name" = BTRIM(game."Genre")
+                WHERE NULLIF(BTRIM(game."Genre"), '') IS NOT NULL;
+                """);
+
+            migrationBuilder.DropColumn(
+                name: "Genre",
+                table: "Games");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "Genre",
+                table: "Games",
+                type: "text",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.Sql("""
+                UPDATE "Games" AS game
+                SET "Genre" = COALESCE((
+                    SELECT STRING_AGG(genre."Name", ', ' ORDER BY genre."Name")
+                    FROM "GameGenre" AS gameGenre
+                    INNER JOIN "Genres" AS genre ON genre."Id" = gameGenre."GenreId"
+                    WHERE gameGenre."GamesId" = game."Id"
+                ), '');
+                """);
+
             migrationBuilder.DropTable(
                 name: "GameGenre");
 
@@ -115,12 +145,6 @@ namespace RUNE.Migrations
             migrationBuilder.DropTable(
                 name: "Tags");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Genre",
-                table: "Games",
-                type: "text",
-                nullable: false,
-                defaultValue: "");
         }
     }
 }

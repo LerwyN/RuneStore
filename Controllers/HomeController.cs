@@ -18,8 +18,15 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         var games = await _context.Games
+            .AsNoTracking()
             .Where(game => game.IsPublished)
             .OrderBy(game => game.DisplayOrder)
+            .ToListAsync();
+
+        ViewData["ReleaseNotes"] = await _context.Notes
+            .AsNoTracking()
+            .OrderByDescending(note => note.ReleaseDate)
+            .ThenBy(note => note.DisplayOrder)
             .ToListAsync();
 
         return View(games);

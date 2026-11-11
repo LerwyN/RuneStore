@@ -23,10 +23,10 @@
 <div class="search-filter-row">
     <div class="search-container">
         <div class="search">
-            <button>
+            <button type="button" aria-label="Arama kutusuna geç">
                 <img src="https://img.icons8.com/?size=100&id=TQPOC8XaUqZ0&format=png&color=ffffff" alt="">
             </button>
-            <input type="text" placeholder="Mağazada ara">
+            <input id="storeSearch" type="search" placeholder="Mağazada ara" aria-label="Mağazada oyun ara" autocomplete="off">
             <span class="search-new-badge" aria-label="Yeni">
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path d="M12 3.5 13.8 9l5.7 1.8-5.7 1.8-1.8 5.7-1.8-5.7-5.7-1.8L10.2 9 12 3.5Z" />
@@ -39,7 +39,7 @@
     <nav class="store-subnav" aria-label="Mağaza menüsü">
         <a href="#featuredBanner" class="active">Kategoriler</a>
         <a href="#all-games-heading">Göz At</a>
-        <a class="whats-new-trigger" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
+            <a class="whats-new-trigger" href="#whatsNewOverlay" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
             <span>Sürüm Yamaları</span>
         </a>
     </nav>
@@ -53,14 +53,15 @@
         {
             <div class="featured-showcase">
                 <div class="featured-game">
-                    <div class="banner" id="featuredBanner"
+                    <div class="banner" id="featuredBanner" data-details-url="@Url.Action("Details", "Games")"
                          style="--banner-image: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0) 100%), url('@initialBannerImage');">
                         <div class="banner-content">
                             <h1 id="bannerTitle">@initialFeaturedGame.Title</h1>
                             <p id="bannerDescription">@initialFeaturedGame.Description</p>
                             <div class="banner-buttons">
-                                <button type="button" id="detailsButton">İncele</button>
-                                <button type="button" id="wishlistButton" class="banner-wishlist-button" aria-label="İstek listesine ekle">
+                                <a id="detailsButton"
+                                   href="@Url.Action("Details", "Games", new { id = initialFeaturedGame.Id })">İncele</a>
+                                <button type="button" id="bannerWishlistButton" class="banner-wishlist-button" data-wishlist-toggle aria-pressed="false" aria-label="İstek listesine ekle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
                                          stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
@@ -68,7 +69,7 @@
                                         <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
                                     </svg>
                                 </button>
-                                <button type="button" id="wishlistButton" class="banner-wishlist-button">
+                                <button type="button" class="banner-wishlist-button" disabled title="Yakında" aria-label="Hediye et (yakında)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
                                          stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
@@ -98,6 +99,7 @@
 
                         <button type="button"
                                 class="featured-game-option @(isActive ? "active" : string.Empty)"
+                                data-featured-id="@game.Id"
                                 data-featured-title="@game.Title"
                                 data-featured-description="@game.Description"
                                 data-featured-image="@(string.IsNullOrWhiteSpace(game.BannerImagePath) ? thumbnailPath : game.BannerImagePath)"
@@ -143,7 +145,7 @@
                     @foreach (var game in catalogGames)
                     {
                         <article class="catalog-game-card">
-                            <a asp-controller="Games" asp-action="Details">
+                            <a asp-controller="Games" asp-action="Details" asp-route-id="@game.Id">
                                 <img class="catalog-game-banner"
                                 src="@game.BannerImagePath"
                                 alt="@game.Title oyun görseli"
@@ -151,8 +153,13 @@
                             </a>
                             <button type="button"
                                     class="catalog-game-wishlist-button"
+                                    data-wishlist-toggle
                                     data-game-id="@game.Id"
+                                    data-game-title="@game.Title"
+                                    data-game-image="@game.CoverImagePath"
+                                    data-game-url="@Url.Action("Details", "Games", new { id = game.Id })"
                                     aria-label="İstek listesine ekle: @game.Title"
+                                    aria-pressed="false"
                                     title="İstek listesine ekle">
                                 <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff"
                                     alt=""
@@ -180,7 +187,7 @@
             }
             <div class="catalog-heading-row mt-3">
                 <h2 id="featured-games-heading">Öne Çıkan Oyunlar</h2>
-                @if (catalogGames.Count > 1)
+                @if (featuredGames.Count > 1)
                 {
                     <div class="catalog-carousel-controls" aria-label="Öne çıkan oyunlarda gezin">
                         <button type="button"
@@ -205,13 +212,13 @@
                     </div>
                 }
             </div>
-            @if (catalogGames.Any())
+            @if (featuredGames.Any())
             {
                 <div class="catalog-games" id="featuredGamesScroller" tabindex="0" aria-label="Öne Çıkanlar">
-                    @foreach (var game in catalogGames)
+                    @foreach (var game in featuredGames)
                     {
                         <article class="catalog-game-card">
-                            <a asp-controller="Games" asp-action="Details">
+                            <a asp-controller="Games" asp-action="Details" asp-route-id="@game.Id">
                                 <img class="catalog-game-banner"
                                 src="@game.BannerImagePath"
                                 alt="@game.Title oyun görseli"
@@ -219,8 +226,13 @@
                             </a>
                             <button type="button"
                                     class="catalog-game-wishlist-button"
+                                    data-wishlist-toggle
                                     data-game-id="@game.Id"
+                                    data-game-title="@game.Title"
+                                    data-game-image="@game.CoverImagePath"
+                                    data-game-url="@Url.Action("Details", "Games", new { id = game.Id })"
                                     aria-label="İstek listesine ekle: @game.Title"
+                                    aria-pressed="false"
                                     title="İstek listesine ekle">
                                 <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff"
                                     alt=""
@@ -246,6 +258,7 @@
             {
                 <p class="catalog-empty">Mağazada henüz yayımlanmış oyun yok.</p>
             }
+            <p id="storeSearchEmpty" class="catalog-empty" aria-live="polite" hidden>Aramana uygun oyun bulunamadı.</p>
         </section>
     </main>
 </div>

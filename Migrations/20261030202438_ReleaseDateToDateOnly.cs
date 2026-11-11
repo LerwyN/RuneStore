@@ -11,25 +11,21 @@ namespace RUNE.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateOnly>(
-                name: "ReleaseDate",
-                table: "Notes",
-                type: "date",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "timestamp with time zone");
+            migrationBuilder.Sql("""
+                ALTER TABLE "Notes"
+                ALTER COLUMN "ReleaseDate" TYPE date
+                USING ("ReleaseDate" AT TIME ZONE 'UTC')::date;
+                """);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "ReleaseDate",
-                table: "Notes",
-                type: "timestamp with time zone",
-                nullable: false,
-                oldClrType: typeof(DateOnly),
-                oldType: "date");
+            migrationBuilder.Sql("""
+                ALTER TABLE "Notes"
+                ALTER COLUMN "ReleaseDate" TYPE timestamp with time zone
+                USING ("ReleaseDate"::timestamp AT TIME ZONE 'UTC');
+                """);
         }
     }
 }

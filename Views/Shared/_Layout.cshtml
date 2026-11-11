@@ -1,6 +1,7 @@
 ﻿@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-    var runeVersion = "v0.1.11 Beta";
+    var releaseNotes = ViewData["ReleaseNotes"] as List<RUNE.Models.ReleaseNotes.ReleaseNote> ?? new List<RUNE.Models.ReleaseNotes.ReleaseNote>();
+    var runeVersion = releaseNotes.FirstOrDefault()?.Version ?? "Rune";
 }
 <!DOCTYPE html>
 <html lang="tr">
@@ -12,7 +13,7 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="icon" href="~/images/icons/RuneDarkIcon.png">
 </head>
 
@@ -20,7 +21,7 @@
     <header class="site-header">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <a class="rune-icon">
+                <a class="rune-icon" asp-controller="Home" asp-action="Index" aria-label="Rune mağazasına dön">
                     <img src="~/images/icons/RuneStore.png" alt="rune">
                 </a>
             </div>
@@ -106,7 +107,7 @@
 
                 <div class="wishlist-icon">
                     <div class="utility-item">
-                        <a href="#" title="İstek Listesi">
+                        <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog" aria-controls="wishlistOverlay" title="İstek Listesi">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
                                  stroke-linejoin="round"
@@ -159,7 +160,7 @@
                         </svg>
                     </a>
                     <div class="profile-info">
-                        <h6 class="profile-name">Rune User</h6>
+                        <h6 class="profile-name">Demo Kullanıcı</h6>
                         <p class="profile-level">Seviye 1</p>
                     </div>
                     <button class="profile-menu-toggle" id="profileMenuToggle" type="button"
@@ -168,8 +169,8 @@
                     </button>
                     <div class="profile-dropdown" id="profileDropdown">
                         <div class="profile-dropdown-header">
-                            <strong>Test &</strong>
-                            <span> Seviye 1 · Admin</span>
+                            <strong>Demo Kullanıcı</strong>
+                            <span> Giriş özelliği yakında</span>
                         </div>
                         <a href="#" class="profile-dropdown-item">
                             <img src="https://img.icons8.com/?size=100&id=iBZNHkGbms4H&format=png&color=ffffff" alt="">
@@ -189,7 +190,7 @@
                             Tema
                         </button>
                         <div class="profile-dropdown-divider"></div>
-                        <button type="button" class="profile-dropdown-item logout-link">
+                        <button type="button" class="profile-dropdown-item logout-link" disabled title="Giriş özelliği hazır değil">
                             <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000"
                                  alt="">Çıkış Yap
                         </button>
@@ -207,7 +208,7 @@
             <div class="mobile-menu-profile">
                 <img src="https://img.icons8.com/?size=100&id=iBZNHkGbms4H&format=png&color=ffffff" alt="Profil">
                 <div>
-                    <strong>Test</strong>
+                    <strong>Demo Kullanıcı</strong>
                     <p>Seviye 1</p>
                 </div>
             </div>
@@ -236,7 +237,7 @@
                 <img src="https://img.icons8.com/?size=100&id=1EMGz1hotW1E&format=png&color=ffffff" alt="">
                 Hediye Et
             </a>
-            <a href="#">
+            <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog" aria-controls="wishlistOverlay">
                 <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff" alt="">
                 İstek Listem
             </a>
@@ -305,8 +306,8 @@
             </div>
             <div class="rune-footer-column">
                 <h3>Keşfet</h3>
-                <a href="#">Popüler Oyunlar</a>
-                <a href="#">Öne Çıkanlar</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="all-games-heading">Popüler Oyunlar</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="featured-games-heading">Öne Çıkanlar</a>
                 <a href="#">Çok Satanlar</a>
                 <a href="#">Yakında Gelecekler</a>
                 <a href="#">İndirimler & Fırsatlar</a>
@@ -322,7 +323,7 @@
             </div>
             <div class="rune-footer-column">
                 <h3>Rune hakkında</h3>
-                <a href="#">Destek Merkezi</a>
+                <a asp-controller="Support" asp-action="Index">Destek Merkezi</a>
                 <a href="#">Sunucu Durumu (Status)</a>
                 <a href="#">Güvenlik & Hile Bildirimi</a>
                 <a href="#">Hakkımızda</a>
@@ -330,7 +331,7 @@
             </div>
             <div class="rune-footer-column">
                 <h3>Yasal</h3>
-                <a href="#">Gizlilik politikası</a>
+                <a asp-controller="Home" asp-action="Privacy">Gizlilik politikası</a>
                 <a href="#">Kullanım koşulları</a>
                 <a href="#">Çerez politikası</a>
                 <a href="#">KVKK</a>
@@ -341,7 +342,7 @@
                 markalarıdır.</p>
 
                 <div class="rune-footer-bottom-right">
-                    <a href="#">Gizlilik</a>
+                    <a asp-controller="Home" asp-action="Privacy">Gizlilik</a>
                     <a href="#">Koşullar</a>
                     <span>TR · Türkiye</span>
 
@@ -354,6 +355,21 @@
             </div>
         </footer>
 
+        <div class="wishlist-overlay" id="wishlistOverlay" hidden>
+            <section class="wishlist-dialog" role="dialog" aria-modal="true" aria-labelledby="wishlistTitle" tabindex="-1">
+                <button class="wishlist-close" id="wishlistClose" type="button" aria-label="İstek listesini kapat">×</button>
+                <header>
+                    <span class="whats-new-eyebrow">Rune Mağazası</span>
+                    <h2 id="wishlistTitle">İstek Listem</h2>
+                    <p>Bu tarayıcıda kaydettiğin oyunlar.</p>
+                </header>
+                <p id="wishlistEmpty" class="wishlist-empty">İstek listen henüz boş.</p>
+                <ul id="wishlistItems" class="wishlist-items"></ul>
+            </section>
+        </div>
+
+        @if (releaseNotes.Count > 0)
+        {
         <div class="whats-new-overlay" id="whatsNewOverlay" hidden>
             <section class="whats-new-dialog" id="whatsNewDialog" role="dialog" aria-modal="true"
                      aria-labelledby="whatsNewTitle" aria-describedby="whatsNewDescription" data-release-version="@runeVersion"
@@ -370,40 +386,55 @@
                 </header>
 
                 <div class="whats-new-history">
-                    <article class="whats-new-release">
-                        <header class="whats-new-release-header">
-                            <h3>@runeVersion</h3>
-                            <time datetime="2026-11-10">11 Kas 2026</time>
-                        </header>
+                    @foreach (var versionGroup in releaseNotes
+                        .GroupBy(note => note.Version)
+                        .OrderByDescending(group => group.Max(note => note.ReleaseDate)))
+                    {
+                        var releaseDate = versionGroup.Max(note => note.ReleaseDate);
+                        var releaseDateIso = releaseDate.ToString("yyyy-MM-dd");
+                        var releaseDateDisplay = releaseDate.ToString("d MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"));
+                        <article class="whats-new-release">
+                            <header class="whats-new-release-header">
+                                <h3>@versionGroup.Key</h3>
+                                <time datetime="@releaseDateIso">@releaseDateDisplay</time>
+                            </header>
 
-                        <div class="whats-new-categories">
-                            <section class="whats-new-category" data-update-category="new">
-                                <h4><span class="whats-new-label">Yeni</span></h4>
-                                <ul>
-                                    <li>Oyunun detay safyası getirldi.</li>
-                                </ul>
-                            </section>
+                            <div class="whats-new-categories">
+                                @foreach (var category in Enum.GetValues<RUNE.Models.ReleaseNotes.ReleaseNoteCategory>())
+                                {
+                                    var categoryNotes = versionGroup
+                                        .Where(note => note.Category == category)
+                                        .OrderBy(note => note.DisplayOrder)
+                                        .ToList();
+                                    if (categoryNotes.Count == 0)
+                                    {
+                                        continue;
+                                    }
 
-                            <section class="whats-new-category" data-update-category="updated">
-                                <h4><span class="whats-new-label">Güncellendi</span></h4>
-                                <ul>
-                                    <li>İconlar daha iyi hale getirldi.</li>
-                                    <li>Grand Theft Auto VI görseli gelmemesi giderildi.</li>
-                                    <li></li>
-                                </ul>
-                            </section>
-
-                            <section class="whats-new-category" data-update-category="removed">
-                                <h4><span class="whats-new-label">Kaldırıldı</span></h4>
-                                <ul>
-                                    <li>Cadılar bayramı posteri kaldırıldı.</li>
-                                </ul>
-                            </section>
-                        </div>
-                    </article>
+                                    var categoryLabel = category switch
+                                    {
+                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.New => "Yeni",
+                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Updated => "Güncellendi",
+                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Removed => "Kaldırıldı",
+                                        _ => category.ToString()
+                                    };
+                                    <section class="whats-new-category" data-update-category="@category.ToString().ToLowerInvariant()">
+                                        <h4><span class="whats-new-label">@categoryLabel</span></h4>
+                                        <ul>
+                                            @foreach (var note in categoryNotes)
+                                            {
+                                                <li>@note.Description</li>
+                                            }
+                                        </ul>
+                                    </section>
+                                }
+                            </div>
+                        </article>
+                    }
                 </div>
             </section>
         </div>
+        }
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

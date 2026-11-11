@@ -1,26 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RUNE.Data;
+using RUNE.Models;
 
-namespace RUNE.Controllers
+namespace RUNE.Controllers;
+
+public class GamesController : Controller
 {
-    public class GamesController : Controller
+    private readonly ApplicationDbContext _context;
+
+    public GamesController(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        _context = context;
+    }
 
-        public GamesController(ApplicationDbContext applicationDbContext)
+    public IActionResult Index() => RedirectToAction("Index", "Home");
+
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id is null or <= 0)
         {
-            _applicationDbContext = applicationDbContext;
+            return NotFound();
         }
 
-        public ActionResult Index()
+        var game = await _context.Games
+            .AsNoTracking()
+            .Include(item => item.Genre)
+            .Include(item => item.Tag)
+            .FirstOrDefaultAsync(item => item.Id == id.Value && item.IsPublished);
+
+        if (game is null)
         {
-            return View();
+            return NotFound();
         }
 
-        public async Task<IActionResult> Details(int id)
-        {
-            return View();
-        }
-
+        return View(game);
     }
 }
