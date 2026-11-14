@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using RUNE.Data;
 using RUNE.Models;
+using RUNE.Services.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,10 @@ connectionString = NormalizePostgresConnectionString(connectionString);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders()
+    .AddErrorDescriber<TurkishIdentityErrorDescriber>();
 
 var app = builder.Build();
 

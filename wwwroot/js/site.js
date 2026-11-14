@@ -143,14 +143,21 @@ const navMiddle = document.querySelector(".navbar-middle");
 const activePill = document.querySelector(".nav-active-pill");
 
 if (navMiddle && activePill) {
-  const navLinks = navMiddle.querySelectorAll("a");
-  const activeLink = navMiddle.querySelector("a.active");
+  const navLinks = navMiddle.querySelectorAll(
+    ":scope > a, :scope > .nav-dropdown > a",
+  );
+  const activeLink = navMiddle.querySelector(
+    ":scope > a.active, :scope > .nav-dropdown > a.active",
+  );
   function moveActivePill(link) {
     if (!link) return;
-    activePill.style.left = `${link.offsetLeft}px`;
-    activePill.style.top = `${link.offsetTop}px`;
-    activePill.style.width = `${link.offsetWidth}px`;
-    activePill.style.height = `${link.offsetHeight}px`;
+    const navRect = navMiddle.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+
+    activePill.style.left = `${linkRect.left - navRect.left}px`;
+    activePill.style.top = `${linkRect.top - navRect.top}px`;
+    activePill.style.width = `${linkRect.width}px`;
+    activePill.style.height = `${linkRect.height}px`;
   }
   if (activeLink) {
     activePill.style.transition = "none";
@@ -179,7 +186,9 @@ if (navMiddle && activePill) {
     });
   });
   window.addEventListener("resize", () => {
-    const currentActiveLink = navMiddle.querySelector("a.active");
+    const currentActiveLink = navMiddle.querySelector(
+      ":scope > a.active, :scope > .nav-dropdown > a.active",
+    );
     if (currentActiveLink) moveActivePill(currentActiveLink);
   });
 }

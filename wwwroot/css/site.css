@@ -84,7 +84,7 @@ body>.container {
   width: 100%;
   height: 70px;
   box-sizing: border-box;
-  background-color: #1b1b1b;
+  background-color: #101010;
 }
 
 .navbar-container a {
@@ -172,6 +172,69 @@ body>.container {
   height: 22px;
   background-color: #383838;
   margin: 4px;
+}
+
+/* çoklu navbar görev çubuğu */
+
+.nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 210px;
+  height: 8px;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 210px;
+  padding: 7px;
+  background: #151517;
+  border: 1px solid #343438;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+  z-index: 2500;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.nav-dropdown-menu a {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  color: #f5f5f5;
+  border-radius: 8px;
+  font-size: 13px;
+  text-decoration: none;
+  white-space: normal;
+}
+
+.nav-dropdown-menu a:hover,
+.nav-dropdown-menu a:focus-visible {
+  color: #fff;
+  background: #2b2b30;
 }
 
 .nav-active-pill {
@@ -392,6 +455,7 @@ body>.container {
   background: transparent;
   font-size: 13px;
   accent-color: #ffffff;
+  color: #fff;
   cursor: pointer;
   width: 100%;
 }
@@ -1488,6 +1552,24 @@ body>.container {
   margin: 5px 0;
 }
 
+.profile-dropdown .whats-new-trigger {
+  width: 100%;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding: 10px;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  transform: none;
+}
+
+.profile-dropdown .whats-new-trigger:hover {
+  background: #303030;
+}
+
 /*  */
 
 @media (max-width: 1200px) {
@@ -1645,7 +1727,7 @@ body>.container {
   .navbar-logo {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 14%;
     transform: translate(-50%, -50%);
   }
 
@@ -3260,6 +3342,18 @@ body.whats-new-open {
   .game-overview-section {
     padding-top: 24px;
   }
+
+  .mobile-auth-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .rune-register-trigger {
+    text-decoration: none;
+  }
 }
 
 @media (max-width: 420px) {
@@ -3480,19 +3574,31 @@ body.whats-new-open {
 }
 
 .rune-login-trigger {
-  padding: 5px 5px;
-  color: #07131a;
-  background: #35baf2;
-  border: 1px solid #35baf2;
-  border-radius: 12px;
+  padding: 6px 9px;
+  color: #fff;
+  background: #343438;
+  border: 1px solid #343438;
+  border-radius: 8px;
   font: inherit;
-  font-weight: 600;
 }
 
 .rune-login-trigger:hover {
-  color: #07131a;
-  background: #68cdf8;
-  border-color: #68cdf8;
+  background: #414145;
+  border-color: #414145;
+}
+
+.rune-register-trigger {
+  padding: 6px 9px;
+  color: #171616;
+  background: #258cfb;
+  border: 1px solid #258cfb;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.rune-register-trigger:hover {
+  background: #31b8f3;
+  border-color: #31b8f3;
 }
 
 body:has(#accountModal.show) .modal-backdrop.show {
@@ -3500,6 +3606,18 @@ body:has(#accountModal.show) .modal-backdrop.show {
   opacity: 1;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+
+  .mobile-auth-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .rune-register-trigger {
+    text-decoration: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -3531,8 +3649,20 @@ body:has(#accountModal.show) .modal-backdrop.show {
     padding: 7px 4px;
     font-size: 0.72rem;
   }
+
+  .mobile-auth-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .rune-register-trigger {
+    text-decoration: none;
+  }
 }
-/* Hamburger menu release notes */
+/* hambuerger menu ve notlar */
 .mobile-menu .mobile-menu-whats-new {
   width: 100%;
   min-height: 58px;
@@ -3541,13 +3671,9 @@ body:has(#accountModal.show) .modal-backdrop.show {
   gap: 11px;
   margin: 6px 0;
   padding: 9px 11px;
-  color: #eeeaff;
-  background: linear-gradient(115deg, rgba(106, 87, 214, 0.22), rgba(38, 39, 47, 0.96) 70%);
-  border: 1px solid rgba(165, 147, 255, 0.28);
+  color: #ffffff;
   border-radius: 13px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 8px 22px rgba(0, 0, 0, 0.18);
   transform: none;
-  transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .mobile-menu .mobile-menu-whats-new:hover {
@@ -3611,5 +3737,237 @@ body:has(#accountModal.show) .modal-backdrop.show {
   .mobile-menu .mobile-menu-whats-new,
   .catalog-game-wishlist-button {
     transition: none;
+  }
+}
+/*  */
+.rune-auth-page-shell {
+  min-height: 100vh;
+  margin: 0;
+  color: #f4f6f8;
+  background: #101013;
+}
+
+.rune-auth-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+.rune-auth-page-card {
+  width: min(100%, 440px);
+  padding: 34px 32px 28px;
+  background: linear-gradient(150deg, #1b1b1f, #151518 72%);
+  border: 1px solid #34343a;
+  border-radius: 18px;
+  box-shadow: 0 24px 72px rgb(0 0 0 / 42%);
+}
+
+.rune-auth-brand {
+  display: flex;
+  min-height: 42px;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.rune-auth-brand img {
+  display: block;
+  width: 112px;
+  max-height: 44px;
+  object-fit: contain;
+}
+
+.rune-auth-page-card h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  text-align: center;
+}
+
+.rune-auth-page-description {
+  margin: 10px 0 24px;
+  color: #a7adb6;
+  font-size: 0.93rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.rune-auth-form {
+  display: block;
+}
+
+.rune-auth-page .rune-auth-field {
+  margin-bottom: 18px;
+}
+
+.rune-auth-page .rune-auth-divider {
+  margin-top: 24px;
+}
+
+.rune-auth-page .rune-auth-provider-btn {
+  min-height: 54px;
+}
+
+.rune-auth-page .rune-auth-register-prompt {
+  margin-top: 22px;
+}
+
+.rune-auth-page .rune-auth-help-button {
+  margin: 22px auto 0;
+  text-align: center;
+  transform: none;
+}
+
+.rune-auth-page-privacy {
+  display: block;
+  width: fit-content;
+  margin: 22px auto 0;
+  color: #a7adb6;
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.rune-auth-page-privacy:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.rune-login-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .rune-auth-page {
+    padding: 18px 12px;
+  }
+
+  .rune-auth-page-card {
+    padding: 28px 22px 24px;
+    border-radius: 16px;
+  }
+
+  .rune-auth-page-card h1 {
+    font-size: 1.4rem;
+  }
+
+  .rune-auth-page-description {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .rune-auth-page-card {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .rune-auth-page .rune-auth-provider-btn {
+    gap: 5px;
+    padding-right: 4px;
+    padding-left: 4px;
+    font-size: 0.7rem;
+  }
+
+  .mobile-auth-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .rune-register-trigger {
+    text-decoration: none;
+  }
+}
+
+/* Giriş, kayıt ve çıkış sonrası üst-orta başarı bildirimi */
+.rune-success-toast {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 6000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: min(290px, calc(100vw - 32px));
+  padding: 9px 13px;
+  color: #fff;
+  background: #0d0d0f;
+  border: 1px solid #303035;
+  border-radius: 10px;
+  box-shadow: 0 16px 38px rgb(0 0 0 / 38%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -120%);
+  animation: rune-success-toast 4.5s ease-in-out forwards;
+}
+
+.rune-success-toast-icon {
+  display: grid;
+  flex: 0 0 21px;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  color: #59df8c;
+}
+
+.rune-success-toast-icon svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.8;
+}
+
+.rune-success-toast-copy {
+  display: grid;
+  gap: 1px;
+}
+
+.rune-success-toast-copy strong {
+  color: #fff;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.rune-success-toast-copy > span {
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+
+@keyframes rune-success-toast {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 45px);
+  }
+
+  5% {
+    opacity: 1;
+    transform: translate(-50%, 82px);
+  }
+
+  93% {
+    opacity: 1;
+    transform: translate(-50%, 82px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -48px);
+  }
+}
+
+@media (max-width: 420px) {
+  .rune-success-toast {
+    min-width: 0;
+    width: calc(100vw - 28px);
   }
 }

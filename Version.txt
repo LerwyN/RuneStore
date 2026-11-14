@@ -1,2 +1,2 @@
 Rune Store
-Version: 0.11.11 Beta
+Version: 0.11.112 Beta

@@ -1,6 +1,7 @@
 @{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-    var releaseNotes = ViewData["ReleaseNotes"] as List<RUNE.Models.ReleaseNotes.ReleaseNote> ?? new List<RUNE.Models.ReleaseNotes.ReleaseNote>();
+    var releaseNotes = ViewData["ReleaseNotes"] as List<RUNE.Models.ReleaseNotes.ReleaseNote> ?? new
+    List<RUNE.Models.ReleaseNotes.ReleaseNote>();
     var runeVersion = releaseNotes.FirstOrDefault()?.Version ?? "Rune";
 }
 <!DOCTYPE html>
@@ -18,8 +19,21 @@
 </head>
 
 <body>
+    @if (TempData["SuccessTitle"] is string successTitle && TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="rune-success-toast" role="status" aria-live="polite">
+            <span class="rune-success-toast-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                    <path d="m5 12 4.2 4.2L19 6.5" />
+                </svg>
+            </span>
+            <span class="rune-success-toast-copy">
+                <strong>@successTitle</strong>
+                <span>@successMessage</span>
+            </span>
+        </div>
+    }
     <header class="site-header">
-        
         <div class="navbar-container">
             <div class="navbar-logo">
                 <a class="rune-icon" asp-controller="Home" asp-action="Index" aria-label="Rune mağazasına dön">
@@ -27,41 +41,76 @@
                 </a>
             </div>
             <nav class="navbar-middle">
-                <a asp-controller="Home" asp-action="Index" class="@(currentController == "Home" ? "active" : "")"
-                   title="Sıradaki Maceranı Keşfet">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="26" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                         class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path
-                        d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304" />
-                        <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
-                    </svg>
-                    Mağaza
-                </a>
-                <a asp-controller="WorkShop" asp-action="Index"
-                   class="@(currentController == "WorkShop" ? "active" : "")" title="Atölye Keşfet">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                         class="icon icon-tabler icons-tabler-outline icon-tabler-tool">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
-                    </svg>
-                    Atölye
-                </a>
-                <a asp-controller="Community" asp-action="Index"
-                   class="@(currentController == "Community" ? "active" : "")" title="Oyun Dünyasının Buluşma Noktası">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                         class="icon icon-tabler icons-tabler-outline icon-tabler-users">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                    </svg>
-                    Topluluk
-                </a>
+                <div class="nav-dropdown">
+                    <a asp-controller="Home" asp-action="Index" class="@(currentController == "Home" ? "active" : "")"
+                       title="Sıradaki Maceranı Keşfet">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="26" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                            d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304" />
+                            <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
+                        </svg>
+                        Mağaza
+                    </a>
+                    <div class="nav-dropdown-menu">
+                        <a href="/">Ana Sayfa</a>
+                        <a href="#">Tüm Oyunlar</a>
+                        <a href="#">Kategoriler</a>
+                        <a href="#">Sıralamalar</a>
+                        <a href="#">Yakında Çıkacaklar</a>
+                        <a href="#">İndirimler ve Fırsatlar</a>
+                        <a href="#">İstek Listesi</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a asp-controller="WorkShop" asp-action="Index"
+                       class="@(currentController == "WorkShop" ? "active" : "")" title="Atölye Keşfet">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-tool">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                            d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
+                        </svg>
+                        Atölye
+                    </a>
+                    <div class="nav-dropdown-menu">
+                        <a href="/">Ana Sayfa</a>
+                        <a href="#">Popüler Modlar</a>
+                        <a href="#">Yeni Modlar</a>
+                        <a href="#">Koleksiyonlar</a>
+                        <a href="#">İçerik Yükle</a>
+                        <a href="#">Takip Edilenler</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a asp-controller="Community" asp-action="Index"
+                       class="@(currentController == "Community" ? "active" : "")"
+                       title="Oyun Dünyasının Buluşma Noktası">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                        </svg>
+                        Topluluk
+                    </a>
+                    <div class="nav-dropdown-menu">
+                        <a href="/">Ana Sayfa</a>
+                        <a href="#">Tartışmalar</a>
+                        <a href="#">Pazar</a>
+                        <a href="#">Yayınlar</a>
+                        <a href="#">Gruplar</a>
+                        <a href="#">Etkinlikler</a>
+                        <a href="#">Arkadaşlarım</a>
+                    </div>
+                </div>
+                
                 <a asp-controller="News" asp-action="Index" class="@(currentController == "News" ? "active" : "")"
                    title="Oyun Dünyasından Haberdar Ol">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none"
@@ -105,116 +154,105 @@
             <div class="navbar-right">
 
                 @* Diller eklenecek *@
+                
 
-                @if(User.Identity?.IsAuthenticated == true)
+                @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="wishlist-icon">
-                         <div class="utility-item">
-                        <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog" aria-controls="wishlistOverlay" title="İstek Listesi">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="utility-item">
-                        <a href="#" title="Hediye Et">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
-                                 stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
-                                <path d="M12 8l0 13" />
-                                <path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7" />
-                                <path
-                                d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="utility-item">
-                        <a href="#" title="Sepetim">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M4 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                <path d="M15 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                <path d="M17 17h-11v-14h-2" />
-                                <path d="M6 5l14 1l-1 7h-13" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-        
-                <div class="profile-card">
-                    <a class="user-icon" title="Profilim" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                             stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                             class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                            <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                            <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-                        </svg>
-                    </a>
-                    <div class="profile-info">
-                        <h6 class="profile-name">@(User.Identity?.Name ?? "Rune User")</h6>
-                        <p class="profile-level">Seviye 1</p>
-                    </div>
-                    <button class="profile-menu-toggle" id="profileMenuToggle" type="button"
-                            aria-label="Profil menüsünü aç" aria-expanded="false">
-                        <img class="" src="https://img.icons8.com/?size=100&id=99991&format=png&color=ffffff" alt="">
-                    </button>
-                    <div class="profile-dropdown" id="profileDropdown">
-                        <div class="profile-dropdown-header">
-                            <strong>@(User.Identity?.Name ?? "Rune User")</strong>
+                        <div class="utility-item">
+                            <a href="#wishlistOverlay" data-wishlist-open aria-haspopup="dialog"
+                               aria-controls="wishlistOverlay" title="İstek Listesi">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
+                                </svg>
+                            </a>
                         </div>
-                        <a href="#" class="profile-dropdown-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
-                                 stroke-linejoin="round"
+                        <div class="utility-item">
+                            <a href="#" title="Hediye Et">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                     stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path
+                                    d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
+                                    <path d="M12 8l0 13" />
+                                    <path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7" />
+                                    <path
+                                    d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="utility-item">
+                            <a href="#" title="Sepetim">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M4 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                    <path d="M15 19a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                    <path d="M17 17h-11v-14h-2" />
+                                    <path d="M6 5l14 1l-1 7h-13" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+        
+                    <div class="profile-card">
+                        <a class="user-icon" title="Profilim" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                                 stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
                                  class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                                 <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
                                 <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
                             </svg>
-                            Profilim
                         </a>
-                        <a href="#" class="profile-dropdown-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-settings">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065" />
-                                <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                            </svg>
-                            Ayarlar
-                        </a>
-                        <div class="profile-dropdown-divider"></div>
-                             <a class="whats-new-trigger" href="#whatsNewOverlay" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
+                        <div class="profile-info">
+                            <h6 class="profile-name">@(User.Identity?.Name ?? "Rune User")</h6>
+                            <p class="profile-level">Seviye 1</p>
+                        </div>
+                        <button class="profile-menu-toggle" id="profileMenuToggle" type="button"
+                                aria-label="Profil menüsünü aç" aria-expanded="false">
+                            <img class="" src="https://img.icons8.com/?size=100&id=99991&format=png&color=ffffff" alt="">
+                        </button>
+                        <div class="profile-dropdown" id="profileDropdown">
+                            <div class="profile-dropdown-header">
+                                <strong>@(User.Identity?.Name ?? "Rune User")</strong>
+                            </div>
+                            <a href="#" class="profile-dropdown-item">
+                                Profilim
+                            </a>
+                            <a href="#" class="profile-dropdown-item">
+                                Ayarlar
+                            </a>
+                            
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="profile-dropdown-item logout-link">Çıkış Yap
+                                </button>
+                            </form>
+
+                            <a class="profile-dropdown-item whats-new-trigger" href="#whatsNewOverlay" data-whats-new-open
+                               aria-haspopup="dialog" aria-controls="whatsNewOverlay"
+                               title="Rune'de neler değişti haberdar ol">
                                 <span>Sürüm Yamaları</span>
                             </a>
-                        <div class="profile-dropdown-divider"></div>
-                        <button type="button" class="profile-dropdown-item logout-link">
-                            <img src="https://img.icons8.com/?size=100&id=3HSHWjvK9Yxq&format=png&color=d90000"
-                                 alt="">Çıkış Yap
-                        </button>
+                        </div>
                     </div>
-                </div>    
                 }
                 else
                 {
-                    <button type="button" class="rune-login-trigger" data-bs-toggle="modal" data-bs-target="#accountModal">Giriş Yap</button>    
+                    <a class="rune-login-trigger" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                    <a class="rune-register-trigger" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
                 }
             </div>
+
             <button class="mobile-menu-button" id="mobileMenuToggle" type="button" aria-label="Menüyü aç"
                     aria-expanded="false" aria-controls="mobileMenu">
                 <span></span>
@@ -222,75 +260,47 @@
                 <span></span>
             </button>
         </div>
+        
         <nav class="mobile-menu" id="mobileMenu">
-            <div class="mobile-menu-profile">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                    <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-                </svg>
-                <div>
-                    <strong>@(User.Identity?.Name ?? "Rune User")</strong>
-                    <p>Seviye 1</p>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="mobile-menu-profile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                         stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                         class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                        <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                        <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                    </svg>
+                    <div>
+                        <strong>@(User.Identity?.Name ?? "Rune User")</strong>
+                        <p>Seviye 1</p>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="mobile-auth-actions mt-2">
+                    <a class="rune-login-trigger" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+                    <a class="rune-register-trigger" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+                </div>
+                <span></span>
+            }
+
             <a asp-controller="Home" asp-action="Index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path
-                    d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304" />
-                    <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
-                </svg>
                 Mağaza
             </a>
             <a asp-controller="Library" asp-action="Index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-tool">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" />
-                </svg>
                 Atölye
             </a>
             <a asp-controller="Community" asp-action="Index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-users">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                </svg>
                 Topluluk
             </a>
             <a asp-controller="News" asp-action="Index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-news">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path
-                    d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
-                    <path d="M8 8l4 0" />
-                    <path d="M8 12l4 0" />
-                    <path d="M8 16l4 0" />
-                </svg>
                 Haberler
             </a>
             <a asp-controller="Support" asp-action="Index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-help">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                    <path d="M12 17l0 .01" />
-                    <path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4" />
-                </svg>
                 Destek
             </a>
             <div class="mobile-menu-divider"></div>
@@ -298,56 +308,23 @@
             @* Sepet,İstek Listesi ve Hediye et burada olacak *@
 
             <a href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-user-circle">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                    <path d="M9 10a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-                </svg>
                 Profilim
             </a>
             
             <a href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-settings">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path
-                    d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065" />
-                    <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
-                </svg>
                 Ayarlar
             </a>
-
-            <a class="whats-new-trigger mobile-menu-whats-new" href="#whatsNewOverlay" data-whats-new-open aria-haspopup="dialog" aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
-                <span class="mobile-menu-whats-new-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" focusable="false">
-                            <path d="M7 3.75h7l4 4v12.5H7a2 2 0 0 1-2-2v-12.5a2 2 0 0 1 2-2Z" />
-                            <path d="M14 3.75v4h4M9 12h6M9 15.5h6" />
-                        </svg>
-                </span>
+            
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="profile-dropdown-item logout-link">Çıkış Yap
+                </button>
+            </form>
+            <a class="whats-new-trigger mobile-menu-whats-new" href="#whatsNewOverlay" data-whats-new-open
+               aria-controls="whatsNewOverlay" title="Rune'de neler değişti haberdar ol">
                 <span class="mobile-menu-whats-new-copy">
                     <strong>Sürüm Notları</strong>
-                    <small>Son güncellemeleri gör</small>
                 </span>
-                <svg class="mobile-menu-whats-new-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                    <path d="m9 18 6-6-6-6" />
-                </svg>
-            </a>
-            
-            <hr class="border border-white">
-            <a href="#" class="logout-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-logout">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
-                    <path d="M9 12h12l-3 -3" />
-                    <path d="M18 15l3 -3" />
-                </svg>
-                Çıkış Yap
             </a>
         </nav>
     </header>
@@ -476,91 +453,77 @@
 
         @if (releaseNotes.Count > 0)
         {
-        <div class="whats-new-overlay" id="whatsNewOverlay" hidden>
-            <section class="whats-new-dialog" id="whatsNewDialog" role="dialog" aria-modal="true"
-                     aria-labelledby="whatsNewTitle" aria-describedby="whatsNewDescription" data-release-version="@runeVersion"
-                     tabindex="-1">
-                <button class="whats-new-close" id="whatsNewClose" type="button" aria-label="Güncelleme penceresini kapat"
-                        title="Kapat">
-                    <span class="mb-2" aria-hidden="true">×</span>
-                </button>
+            <div class="whats-new-overlay" id="whatsNewOverlay" hidden>
+                <section class="whats-new-dialog" id="whatsNewDialog" role="dialog" aria-modal="true"
+                         aria-labelledby="whatsNewTitle" aria-describedby="whatsNewDescription" data-release-version="@runeVersion"
+                         tabindex="-1">
+                    <button class="whats-new-close" id="whatsNewClose" type="button" aria-label="Güncelleme penceresini kapat"
+                            title="Kapat">
+                        <span class="mb-2" aria-hidden="true">×</span>
+                    </button>
 
-                <header class="whats-new-header">
-                    <span class="whats-new-eyebrow">Rune · Sürüm Notları</span>
-                    <h2 id="whatsNewTitle">Yenilikler</h2>
-                    <p id="whatsNewDescription">Eklenenler, düzeltilenler ve kaldırılanları buradan görebilirsiniz.</p>
-                </header>
+                    <header class="whats-new-header">
+                        <span class="whats-new-eyebrow">Rune · Sürüm Notları</span>
+                        <h2 id="whatsNewTitle">Yenilikler</h2>
+                        <p id="whatsNewDescription">Eklenenler, düzeltilenler ve kaldırılanları buradan görebilirsiniz.</p>
+                    </header>
 
-                <div class="whats-new-history">
-                    @foreach (var versionGroup in releaseNotes
-                        .GroupBy(note => note.Version)
-                        .OrderByDescending(group => group.Max(note => note.ReleaseDate)))
-                    {
-                        var releaseDate = versionGroup.Max(note => note.ReleaseDate);
-                        var releaseDateIso = releaseDate.ToString("yyyy-MM-dd");
-                        var releaseDateDisplay = releaseDate.ToString("d MMM yyyy", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"));
-                        <article class="whats-new-release">
-                            <header class="whats-new-release-header">
-                                <h3>@versionGroup.Key</h3>
-                                <time datetime="@releaseDateIso">@releaseDateDisplay</time>
-                            </header>
+                    <div class="whats-new-history">
+                        @foreach (var versionGroup in releaseNotes
+                            .GroupBy(note => note.Version)
+                            .OrderByDescending(group => group.Max(note => note.ReleaseDate)))
+                        {
+                            var releaseDate = versionGroup.Max(note => note.ReleaseDate);
+                            var releaseDateIso = releaseDate.ToString("yyyy-MM-dd");
+                            var releaseDateDisplay = releaseDate.ToString("d MMM yyyy",
+                    System.Globalization.CultureInfo.GetCultureInfo("tr-TR"));
+                            <article class="whats-new-release">
+                                <header class="whats-new-release-header">
+                                    <h3>@versionGroup.Key</h3>
+                                    <time datetime="@releaseDateIso">@releaseDateDisplay</time>
+                                </header>
 
-                            <div class="whats-new-categories">
-                                @foreach (var category in Enum.GetValues<RUNE.Models.ReleaseNotes.ReleaseNoteCategory>())
-                                {
-                                    var categoryNotes = versionGroup
-                                        .Where(note => note.Category == category)
-                                        .OrderBy(note => note.DisplayOrder)
-                                        .ToList();
-                                    if (categoryNotes.Count == 0)
+                                <div class="whats-new-categories">
+                                    @foreach (var category in Enum.GetValues<RUNE.Models.ReleaseNotes.ReleaseNoteCategory>())
                                     {
-                                        continue;
+                                        var categoryNotes = versionGroup
+                                            .Where(note => note.Category == category)
+                                            .OrderBy(note => note.DisplayOrder)
+                                            .ToList();
+                                        if (categoryNotes.Count == 0)
+                                        {
+                                            continue;
+                                        }
+
+                                        var categoryLabel = category switch
+                                        {
+                                            RUNE.Models.ReleaseNotes.ReleaseNoteCategory.New => "Yeni",
+                                            RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Updated => "Güncellendi",
+                                            RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Removed => "Kaldırıldı",
+                                            _ => category.ToString()
+                                        };
+                                        <section class="whats-new-category"
+                                                 data-update-category="@category.ToString().ToLowerInvariant()">
+                                            <h4><span class="whats-new-label">@categoryLabel</span></h4>
+                                            <ul>
+                                                @foreach (var note in categoryNotes)
+                                                {
+                                                    <li>@note.Description</li>
+                                                }
+                                            </ul>
+                                        </section>
                                     }
-
-                                    var categoryLabel = category switch
-                                    {
-                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.New => "Yeni",
-                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Updated => "Güncellendi",
-                                        RUNE.Models.ReleaseNotes.ReleaseNoteCategory.Removed => "Kaldırıldı",
-                                        _ => category.ToString()
-                                    };
-                                    <section class="whats-new-category" data-update-category="@category.ToString().ToLowerInvariant()">
-                                        <h4><span class="whats-new-label">@categoryLabel</span></h4>
-                                        <ul>
-                                            @foreach (var note in categoryNotes)
-                                            {
-                                                <li>@note.Description</li>
-                                            }
-                                        </ul>
-                                    </section>
-                                }
-                            </div>
-                        </article>
-                    }
-                </div>
-            </section>
-        </div>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                </section>
+            </div>
         }
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-        <div class="modal fade" id="accountModal" tabindex="-1" aria-labelledby="accountModalTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered rune-auth-modal-dialog">
-                <div class="modal-content rune-auth-modal-content">
-                    <div class="modal-header rune-auth-modal-header">
-                        <h5 class="modal-title" id="accountModalTitle">Rune'e giriş yap</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Kapat"></button>
-                    </div>
-                    <div class="modal-body rune-auth-modal-body">
-                          @await Html.PartialAsync(
-                              "~/Views/Account/_LoginForm.cshtml",
-                              new RUNE.Models.ViewModels.Account.LoginViewModel())
-                    </div>
-                </div>
-            </div>
-        </div>
         @await RenderSectionAsync("Scripts", required: false)
     </body>
 

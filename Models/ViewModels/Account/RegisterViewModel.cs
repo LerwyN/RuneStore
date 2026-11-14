@@ -6,7 +6,7 @@ namespace RUNE.Models.ViewModels.Account;
 public class RegisterViewModel
 {
     [Required(ErrorMessage = "Kullanıcı adı zorunludur.")]
-    [Display(Name = "Kullanıcı adı")]
+    [Display(Name = "Kullanıcı Adı")]
     public string UserName { get; set; } = string.Empty;
     [Required(ErrorMessage = "E-Posta boş bırakılamaz.")]
     [Display(Name = "E-Posta")]

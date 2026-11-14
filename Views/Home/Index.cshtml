@@ -9,7 +9,7 @@
         .ThenBy(game => game.DisplayOrder)
         .Take(6)
         .ToList();
-    var catalogGames = allGames.Take(20).ToList();
+    var catalogGames = allGames.Take(30).ToList();
     var initialFeaturedGame = featuredGames.FirstOrDefault();
     var initialBannerImage = initialFeaturedGame is null
         ? string.Empty
@@ -26,21 +26,12 @@
             <button type="button" aria-label="Arama kutusuna geç">
                 <img src="https://img.icons8.com/?size=100&id=TQPOC8XaUqZ0&format=png&color=ffffff" alt="">
             </button>
-            <input id="storeSearch" type="search" placeholder="Mağazada ara" aria-label="Mağazada oyun ara" autocomplete="off">
-            <span class="search-new-badge" aria-label="Yeni">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 3.5 13.8 9l5.7 1.8-5.7 1.8-1.8 5.7-1.8-5.7-5.7-1.8L10.2 9 12 3.5Z" />
-                    <path d="m19 15.5.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9.9-2.6Z" />
-                </svg>
-                <span>Yeni</span>
-            </span>
+            <input id="storeSearch" placeholder="Mağazada ara" aria-label="Mağazada oyun ara">
         </div>
     </div>
     <nav class="store-subnav" aria-label="Mağaza menüsü">
         <a href="#featuredBanner" class="active">Kategoriler</a>
         <a href="#all-games-heading">Göz At</a>
-            
-        </a>
     </nav>
 </div>
 
@@ -60,10 +51,12 @@
                             <div class="banner-buttons">
                                 <a id="detailsButton"
                                    href="@Url.Action("Details", "Games", new { id = initialFeaturedGame.Id })">İncele</a>
-                                <button type="button" id="bannerWishlistButton" class="banner-wishlist-button"aria-label="İstek listesine ekle">
+                                <button type="button" id="bannerWishlistButton" class="banner-wishlist-button"
+                                        aria-label="İstek listesine ekle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
-                                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
+                                         stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                         <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
                                     </svg>
@@ -71,12 +64,15 @@
                                 <button type="button" class="banner-wishlist-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
-                                         stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
+                                         stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-gift">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
+                                        <path
+                                        d="M3 9a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1l0 -2" />
                                         <path d="M12 8l0 13" />
                                         <path d="M19 12v7a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-7" />
-                                        <path d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
+                                        <path
+                                        d="M7.5 8a2.5 2.5 0 0 1 0 -5a4.8 8 0 0 1 4.5 5a4.8 8 0 0 1 4.5 -5a2.5 2.5 0 0 1 0 5" />
                                     </svg>
                                 </button>
                             </div>
@@ -96,10 +92,8 @@
                             ? game.BannerImagePath
                             : game.CoverImagePath;
 
-                        <button type="button"
-                                class="featured-game-option @(isActive ? "active" : string.Empty)"
-                                data-featured-id="@game.Id"
-                                data-featured-title="@game.Title"
+                        <button type="button" class="featured-game-option @(isActive ? "active" : string.Empty)"
+                                data-featured-id="@game.Id" data-featured-title="@game.Title"
                                 data-featured-description="@game.Description"
                                 data-featured-image="@(string.IsNullOrWhiteSpace(game.BannerImagePath) ? thumbnailPath : game.BannerImagePath)"
                                 aria-pressed="@(isActive ? "true" : "false")">
@@ -116,21 +110,14 @@
                 @if (catalogGames.Count > 1)
                 {
                     <div class="catalog-carousel-controls" aria-label="Popüler oyunlarda gezin">
-                        <button type="button"
-                                class="catalog-scroll-button"
-                                data-catalog-scroll="-1"
-                                aria-label="Önceki oyunlar"
-                                aria-controls="popularGamesScroller"
-                                disabled>
+                        <button type="button" class="catalog-scroll-button" data-catalog-scroll="-1"
+                                aria-label="Önceki oyunlar" aria-controls="popularGamesScroller" disabled>
                             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                 <path d="m15 18-6-6 6-6" />
                             </svg>
                         </button>
-                        <button type="button"
-                                class="catalog-scroll-button"
-                                data-catalog-scroll="1"
-                                aria-label="Sonraki oyunlar"
-                                aria-controls="popularGamesScroller">
+                        <button type="button" class="catalog-scroll-button" data-catalog-scroll="1"
+                                aria-label="Sonraki oyunlar" aria-controls="popularGamesScroller">
                             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                 <path d="m9 18 6-6-6-6" />
                             </svg>
@@ -144,123 +131,103 @@
                     @foreach (var game in catalogGames)
                     {
                         <article class="catalog-game-card">
-                            <a class="catalog-game-details-link" asp-controller="Games" asp-action="Details" asp-route-id="@game.Id">
-                                <img class="catalog-game-banner"
-                                src="@game.BannerImagePath"
-                                alt="@game.Title oyun görseli"
-                                loading="lazy" />
+                            <a class="catalog-game-details-link" asp-controller="Games" asp-action="Details"
+                               asp-route-id="@game.Id">
+                                <img class="catalog-game-banner" src="@game.BannerImagePath" alt="@game.Title oyun görseli"
+                                     loading="lazy" />
                             </a>
-                            <button type="button"
-                                    class="catalog-game-wishlist-button"
-                                    data-wishlist-toggle
-                                    data-game-id="@game.Id"
-                                    data-game-title="@game.Title"
-                                    data-game-image="@game.CoverImagePath"
+                            <button type="button" class="catalog-game-wishlist-button" data-wishlist-toggle
+                                    data-game-id="@game.Id" data-game-title="@game.Title" data-game-image="@game.CoverImagePath"
                                     data-game-url="@Url.Action("Details", "Games", new { id = game.Id })"
-                                    aria-label="İstek listesine ekle: @game.Title"
-                                    aria-pressed="false"
+                                    aria-label="İstek listesine ekle: @game.Title" aria-pressed="false"
                                     title="İstek listesine ekle">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round"
-                                 stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
-                            </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     stroke="#FFFFFF" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-bookmark">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4" />
+                                </svg>
                             </button>
                             <div class="catalog-game-info">
                                 <h3>@game.Title</h3>
                                 @if (game.Price > 0)
                                 {
-                                    <span class="catalog-game-price">₺ @game.Price.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
-                                }
+                                    <span class="catalog-game-price">₺ @game.Price.ToString("N2",
+                                                                                                                                                    System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                                    }
                                 else
-                                {
-                                    <span class="catalog-game-price catalog-game-price-pending">Fiyat yakında</span>
-                                }
-                            </div>
-                        </article>
-                    }
-                </div>
-            }
-            else
-            {
-                <p class="catalog-empty">Mağazada henüz yayımlanmış oyun yok.</p>
-            }
-            <div class="catalog-heading-row mt-3">
-                <h2 id="featured-games-heading">Öne Çıkan Oyunlar</h2>
-                @if (featuredGames.Count > 1)
-                {
-                    <div class="catalog-carousel-controls" aria-label="Öne çıkan oyunlarda gezin">
-                        <button type="button"
-                                class="catalog-scroll-button"
-                                data-catalog-scroll="-1"
-                                aria-label="Önceki oyunlar"
-                                aria-controls="featuredGamesScroller"
-                                disabled>
-                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                <path d="m15 18-6-6 6-6" />
-                            </svg>
-                        </button>
-                        <button type="button"
-                                class="catalog-scroll-button"
-                                data-catalog-scroll="1"
-                                aria-label="Sonraki oyunlar"
-                                aria-controls="featuredGamesScroller">
-                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                <path d="m9 18 6-6-6-6" />
-                            </svg>
-                        </button>
+                                    {
+                                        <span class="catalog-game-price catalog-game-price-pending">Fiyat yakında</span>
+                                    }
+                                </div>
+                            </article>
+                        }
                     </div>
                 }
-            </div>
-            @if (featuredGames.Any())
-            {
-                <div class="catalog-games" id="featuredGamesScroller" tabindex="0" aria-label="Öne Çıkanlar">
-                    @foreach (var game in featuredGames)
+            else
+                {
+                    <p class="catalog-empty">Mağazada henüz yayımlanmış oyun yok.</p>
+                }
+                <div class="catalog-heading-row mt-3">
+                    <h2 id="featured-games-heading">Öne Çıkan Oyunlar</h2>
+                    @if (featuredGames.Count > 1)
                     {
-                        <article class="catalog-game-card">
-                            <a class="catalog-game-details-link" asp-controller="Games" asp-action="Details" asp-route-id="@game.Id">
-                                <img class="catalog-game-banner"
-                                src="@game.BannerImagePath"
-                                alt="@game.Title oyun görseli"
-                                loading="lazy" />
-                            </a>
-                            <button type="button"
-                                    class="catalog-game-wishlist-button"
-                                    data-wishlist-toggle
-                                    data-game-id="@game.Id"
-                                    data-game-title="@game.Title"
-                                    data-game-image="@game.CoverImagePath"
-                                    data-game-url="@Url.Action("Details", "Games", new { id = game.Id })"
-                                    aria-label="İstek listesine ekle: @game.Title"
-                                    aria-pressed="false"
-                                    title="İstek listesine ekle">
-                                <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff"
-                                    alt=""
-                                    aria-hidden="true"
-                                    loading="lazy" />
+                        <div class="catalog-carousel-controls" aria-label="Öne çıkan oyunlarda gezin">
+                            <button type="button" class="catalog-scroll-button" data-catalog-scroll="-1"
+                                    aria-label="Önceki oyunlar" aria-controls="featuredGamesScroller" disabled>
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="m15 18-6-6 6-6" />
+                                </svg>
                             </button>
-                            <div class="catalog-game-info">
-                                <h3>@game.Title</h3>
-                                @if (game.Price > 0)
-                                {
-                                    <span class="catalog-game-price">₺ @game.Price.ToString("N2", System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
-                                }
-                                else
-                                {
-                                    <span class="catalog-game-price catalog-game-price-pending">Fiyat yakında</span>
-                                }
-                            </div>
-                        </article>
+                            <button type="button" class="catalog-scroll-button" data-catalog-scroll="1"
+                                    aria-label="Sonraki oyunlar" aria-controls="featuredGamesScroller">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <path d="m9 18 6-6-6-6" />
+                                </svg>
+                            </button>
+                        </div>
                     }
                 </div>
-            }
+                @if (featuredGames.Any())
+                {
+                    <div class="catalog-games" id="featuredGamesScroller" tabindex="0" aria-label="Öne Çıkanlar">
+                        @foreach (var game in featuredGames)
+                        {
+                            <article class="catalog-game-card">
+                                <a class="catalog-game-details-link" asp-controller="Games" asp-action="Details"
+                                   asp-route-id="@game.Id">
+                                    <img class="catalog-game-banner" src="@game.BannerImagePath" alt="@game.Title oyun görseli"
+                                         loading="lazy" />
+                                </a>
+                                <button type="button" class="catalog-game-wishlist-button" data-wishlist-toggle
+                                        data-game-id="@game.Id" data-game-title="@game.Title" data-game-image="@game.CoverImagePath"
+                                        data-game-url="@Url.Action("Details", "Games", new { id = game.Id })"
+                                        aria-label="İstek listesine ekle: @game.Title" aria-pressed="false"
+                                        title="İstek listesine ekle">
+                                    <img src="https://img.icons8.com/?size=100&id=qePzjQLJYgjF&format=png&color=ffffff" alt=""
+                                         aria-hidden="true" loading="lazy" />
+                                </button>
+                                <div class="catalog-game-info">
+                                    <h3>@game.Title</h3>
+                                    @if (game.Price > 0)
+                                    {
+                                        <span class="catalog-game-price">₺ @game.Price.ToString("N2",
+                                                                                                                                                                System.Globalization.CultureInfo.GetCultureInfo("tr-TR"))</span>
+                                        }
+                                else
+                                        {
+                                            <span class="catalog-game-price catalog-game-price-pending">Fiyat yakında</span>
+                                        }
+                                    </div>
+                                </article>
+                            }
+                        </div>
+                    }
             else
-            {
-                <p class="catalog-empty">Mağazada henüz yayımlanmış oyun yok.</p>
-            }
-            <p id="storeSearchEmpty" class="catalog-empty" aria-live="polite" hidden>Aramana uygun oyun bulunamadı.</p>
-        </section>
-    </main>
-</div>
+                    {
+                        <p class="catalog-empty">Mağazada henüz yayımlanmış oyun yok.</p>
+                    }
+                    <p id="storeSearchEmpty" class="catalog-empty" aria-live="polite" hidden>Aramana uygun oyun bulunamadı.</p>
+                </section>
+            </main>
+        </div>
